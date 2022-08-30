@@ -1,26 +1,37 @@
 class MyQueue {
 public:
-    queue<int> q1,q2;
-    MyQueue() {  //FIFO
+    deque<int> q1,q2;
+    MyQueue() {  //Requirement: FIFO, push/peek/pop from top
         
     }
     
     void push(int x) {
-        q1.push(x);
+        while(q2.size()>0){
+            q1.push_back(q2.back());
+            q2.pop_back();
+        }
+        q1.push_back(x);
     }
     
     int pop() {
-        int x = q1.front();
-        q1.pop();
+        int x = peek();
+        q2.pop_back();
         return x;
     }
     
     int peek() {
-        return q1.front();
+        if(!q1.empty()){
+            int size = q1.size();  //remember to use size instead of q1.size, 
+            for(int i=0;i<size;++i){  //as q1.size will change during loop
+                q2.push_back(q1.back());
+                q1.pop_back();
+            }
+        }
+        return q2.back();
     }
     
     bool empty() {
-        return q1.empty();
+        return q1.empty() && q2.empty();
     }
 };
 

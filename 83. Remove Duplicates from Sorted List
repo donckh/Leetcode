@@ -26,6 +26,6 @@ public:
     ListNode* deleteDuplicates(ListNode* head) {
         if (!head || !head->next) return head; //null==false, if any null, return head;
         head->next = deleteDuplicates(head->next);
-        return (head->val == head->next->val) ? head->next : head;
+        return (head->val == head->next->val) ? head->next : head;  //if val == next->val: head->next= (last loop)head->next, means skip this loop
     }
 };

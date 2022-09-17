@@ -6,6 +6,7 @@ public:
         int cost[n][n];  //from 0 to n x 0 to n matrix
         vector<int> group(n,0); //start from 0 to n
         vector<int> dis(n,inf);
+        //initial array and vector for further use
         for(int i=0; i<n; ++i){
             group[i]=i;
             for(int j=0;j<n;++j){
@@ -13,9 +14,16 @@ public:
                 else cost[i][j]= inf;
             }
         }
+        //create connection btw initial array
         for (int i=0; i<times.size();++i){
             cost[times[i][0]-1][times[i][1]-1]=times[i][2];
         }
+        /*Dijkstra: 
+        1. update edge by selected vertex to others, min: min selected edge
+        2. remove selected vertex (by idx)
+        3. find min edge from remaining vertex
+        4. update min, idx of min edge
+        */
         while(count--){
             for(int i=0; i<n;++i){
                 if (dis[i]> min+cost[k][i]) dis[i]= min+cost[k][i];

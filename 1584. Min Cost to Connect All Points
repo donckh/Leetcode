@@ -1,0 +1,40 @@
+class Solution {
+public:
+    int minCostConnectPoints(vector<vector<int>>& points) {
+        // initial
+        int size = points.size(), min, idx=0, col=0, sum=0;
+        int cost[size][size];  //matrix for saving all cost
+        vector<int> ungroup;  //remain vertex to be connect
+        vector<int> dis(size,9999999);  //vector for calculate remaining min edge vertex
+        for(int i=0; i<size;++i){
+            ungroup.push_back(i);
+        }
+        for(int i=0; i<size;++i){
+            for(int j=0;j<size;++j){
+                cost[i][j] = abs(points[i][0]-points[j][0])+abs(points[i][1]-points[j][1]);
+                }
+        }
+        ungroup.erase(ungroup.begin()+idx);  //remove start point
+        /* while remaining vertex 
+        1. check ungroup vertex --> update min edge vector(ungroup) except those already connect
+        2. select min edge from min edge vector(ungroup)
+        3. update col by new min edge to be connected
+        4. remove selected min edge vector(ungroup)
+        */
+        while(ungroup.size()!=0){
+            min=9999999;
+            for(int j=0; j<ungroup.size();++j){
+                if(dis[ungroup[j]]>cost[col][ungroup[j]]) dis[ungroup[j]]=cost[col][ungroup[j]];
+                if(min>dis[ungroup[j]]){
+                    min=dis[ungroup[j]];
+                    idx = j;
+                }
+            }
+            sum+=min;
+            //sum.push_back(min);
+            col=ungroup[idx];
+            ungroup.erase(ungroup.begin()+idx);
+        }
+        return sum;
+    }
+};

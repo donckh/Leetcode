@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+
+class Solution {  //input vector --> build tree
+public:
+    TreeNode *buildTree(vector<int> &preorder, vector<int> &inorder) {
+        return buildTree(preorder, 0, preorder.size() - 1, inorder, 0, inorder.size() - 1);
+    }
+    TreeNode *buildTree(vector<int> &preorder, int pLeft, int pRight, vector<int> &inorder, int iLeft, int iRight) {
+        if (pLeft > pRight || iLeft > iRight) return NULL;  //stop build tree for this loop
+        int i = 0;
+        for (i = iLeft; i <= iRight; ++i) {  
+            //find index(i) of root for unit tree which inorder equal current root (pLeft) of preoder
+            if (preorder[pLeft] == inorder[i]) break;
+        }
+        TreeNode *cur = new TreeNode(preorder[pLeft]);  //build tree
+        cur->left = buildTree(preorder, pLeft + 1, pLeft + i - iLeft, inorder, iLeft, i - 1);  
+        //build left tree, pRight=pLeft+i-iLeft: i-iLeft num of child to the end, start from pLeft
+        //left range of root for preoder: pleft+1 TO pleft+ inorder(root-left start point) 
+        //iRight=i-1: means left side of root
+        cur->right = buildTree(preorder, pLeft + i - iLeft + 1, pRight, inorder, i + 1, iRight);  
+        //build right tree, pLeft=pLeft + i - iLeft: pLeft=current root index of preoder
+        //right range of root for preorder: the end of left tree +1 TO pright
+        //i-iLeft: max num can be search in preorder
+        /*  0: pleft=0, pright=4, ileft=0, iright=4, i=1: cur=3
+            1st left: pleft=0+1=1, pright=0+1-0=1, ileft=0, iright=1-1=0, i=0: cur=9
+                2nd left: pleft=1+1=2, pright=1+0-0=1, ileft=0, iright=0-1=-1: cur=null
+                1st right: pleft=1+0-0+1=2, pright=1, ileft=0+1=1, iright=0: cur=null
+            1st right:pleft=0+1-0+1=2, pright=4, ileft=1+1=2, irgiht=4, i=3: cur=20
+                1st left: pleft=2+1=3, pright=2+3-2=3, ileft=2, iright=3-1=2, i=2: cur=15
+            build tree explaination: preorder: root--> left --> right, inorder: left --> root --> right
+            1. build root  --> left(follow preorder index) --> left until the end(return null)
+            2. following the end left will be the end right(as preorder sequence)
+            3. range for inorder: left to root-1 and root+1 to right
+            4. range for preorder: left+1 to left range of inorder+1 and left range of inorder+2 to right
+            start: left+1, num of left remaining: root of inorder(i) - left, right: start+ # of left remain
+        */
+        return cur;
+    }
+};

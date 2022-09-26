@@ -1,0 +1,17 @@
+/*Question: check duplicate num for given vector.
+1. build hash table(unorder_map)
+2. initial pair for checking insert success or not.
+3. output !pair.second as require.
+*/
+class Solution {
+public:
+    bool containsDuplicate(vector<int>& nums) {
+        unordered_map<int,int> hash;
+        pair<unordered_map<int,int>::iterator,bool> ans;
+        for(int i=0; i<nums.size();++i){
+            ans = hash.insert(pair(nums[i],i));
+            if (ans.second==false) break;
+        }
+        return !ans.second;
+    }
+};

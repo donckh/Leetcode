@@ -1,25 +1,55 @@
-/*Question: find the index of given array equal to target.
-1. create hash table(unordered_map)
-2. create pair for checking insert success or not.
-3. for loop: insert nums and index
-4. If: check insert success or not, if not success, check equal to target or not. 
-5. 1st loop will insert num1 and num2 with index
-6. 2nd loop insert fail num2 index found.
-*/
+// /*Question: find the index of given array equal to target.
+// 1. create hash table(unordered_map)
+// 2. create pair for checking insert success or not.
+// 3. for loop: insert nums and index
+// 4. If: check insert success or not, if not success, check equal to target or not. 
+// 5. 1st loop will insert num1 and num2 with index
+// 6. 2nd loop insert fail num2 index found.
+// */
+// class Solution {
+// public:
+//     vector<int> twoSum(vector<int>& nums, int target) {
+//         unordered_map<int,int> table;
+//         pair<unordered_map<int,int>::iterator, bool> ret;
+//         vector<int> ans;
+//         for(int i=0; i<nums.size();++i){
+//             ret = table.insert(pair <int, int> (target-nums[i], i));
+//             if (ret.second==false && target == nums[i] +nums[table[target-nums[i]]]) {
+//                 ans.push_back(table[nums[i]]);
+//                 ans.push_back(i);
+//             }
+//             else table[nums[i]]=i;
+//         }
+//         return ans;
+//     }
+// };
+
+// Force method
+// class Solution {
+// public:
+//     vector<int> twoSum(vector<int>& nums, int target) {
+//         int i, j, len=nums.size(), found = 0;
+//         for(i=0; i<len && !found; i++){
+//             for(j=i+1; j<len && !found;j++){
+//                 if(nums[i]+nums[j]==target) found = 1;
+//             }
+//         }
+//         vector<int> ans = {i-1, j-1};
+//         return ans;
+//     }
+// };
+
+// find ans:target-num[i] in unorder_map and return it if exists.
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        unordered_map<int,int> table;
-        pair<unordered_map<int,int>::iterator, bool> ret;
-        vector<int> ans;
-        for(int i=0; i<nums.size();++i){
-            ret = table.insert(pair <int, int> (target-nums[i], i));
-            if (ret.second==false && target == nums[i] +nums[table[target-nums[i]]]) {
-                ans.push_back(table[nums[i]]);
-                ans.push_back(i);
-            }
-            else table[nums[i]]=i;
+        std::unordered_map<int, int> ans;
+        for(int i=0; i<nums.size(); i++){
+            if(ans.count(target-nums[i]))
+                return {i, ans[target-nums[i]]};
+            else
+                ans[nums[i]] = i;
         }
-        return ans;
+        return {-1, -1};
     }
 };

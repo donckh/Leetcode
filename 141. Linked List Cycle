@@ -1,0 +1,23 @@
+/**
+ * Definition for singly-linked list. 
+ * struct ListNode {
+ *     int val;  // linked_list: head->val
+ *     ListNode *next;  // linked_list: head->next
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        std::unordered_set<long int> uset;
+        //bool loop=false;
+        ListNode *slow=head, *fast=head;
+        // if(head==NULL || head->next==NULL) return false;
+        while(slow!=NULL && fast->next!=NULL && fast->next->next!=NULL){
+            slow = slow->next;
+            fast = fast->next->next;
+            if(slow==fast) return true;
+        }
+        return false;
+    }
+};

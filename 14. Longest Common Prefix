@@ -1,0 +1,17 @@
+// check all string char by char faster than string by string
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if(strs.size()==0) return "";
+        int j;
+        for(j=0; strs[0][j]; j++){
+            for(int i=1; i<strs.size(); i++){
+                if(strs[0][j]!=strs[i][j]){
+                    return strs[0].substr(0, j);
+                }
+
+            }
+        }
+        return strs[0].substr(0, j);
+    }
+};

@@ -6,13 +6,13 @@
  *     ListNode(int x) : val(x), next(NULL) {}
  * };
  */
+ 
+// use 2 different step pointers: if loop exists, 2 pointers will be equal at some time.
 class Solution {
 public:
     bool hasCycle(ListNode *head) {
         std::unordered_set<long int> uset;
-        //bool loop=false;
         ListNode *slow=head, *fast=head;
-        // if(head==NULL || head->next==NULL) return false;
         while(slow!=NULL && fast->next!=NULL && fast->next->next!=NULL){
             slow = slow->next;
             fast = fast->next->next;

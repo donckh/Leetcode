@@ -1,3 +1,4 @@
+// question: common prefix
 // check all string char by char faster than string by string
 class Solution {
 public:

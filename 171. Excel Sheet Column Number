@@ -1,0 +1,12 @@
+class Solution {
+public:
+    int titleToNumber(string columnTitle) {
+        int len=columnTitle.length();
+        long long sum = columnTitle[len-1] - 'A' + 1, j=26;
+        for(int i=len-2; i>=0; i--){
+            sum = sum + j*(columnTitle[i]-'A'+1);
+            j *= 26;
+        }
+        return sum;
+    }
+};

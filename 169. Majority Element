@@ -1,0 +1,32 @@
+//use umap to store all element and output major one
+// class Solution {
+// public:
+//     int majorityElement(vector<int>& nums) {
+//         std::unordered_map<int,int> umap;
+//         int len = nums.size();
+//         for(int i=0; i<len; i++){
+//             umap[nums[i]]++;
+//         }
+//         len /= 2;
+//         for(auto i=umap.begin(); i!=umap.end(); i++){
+//             if(i->second>len) return i->first;
+//         }
+//         return 0;
+//     }
+// };
+
+// major element will appear most, then cnt will always non-zero
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int cnt=0, major;
+        for(auto i:nums){
+            if(cnt==0){
+                major = i;
+            }
+            if(i==major) cnt++;
+            else cnt--;
+        }
+        return major;
+    }
+};

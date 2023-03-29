@@ -1,0 +1,29 @@
+// class Solution {
+// public:
+//     int singleNumber(vector<int>& nums) {
+//         std::unordered_map<int, int> umap;
+//         for(int i=0; i<nums.size(); i++){
+//             if(!umap.count(nums[i])){
+//                 umap[nums[i]]=1;
+//             }
+//             else umap[nums[i]]=2;
+//         }
+//         for(auto i=umap.begin(); i!=umap.end(); i++){
+//             if(i->second==1) return i->first;
+//             // break;
+//         }
+//         return 0;
+//     }
+// };
+
+// XOR: return false if same value
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int sum=0;
+        for(int i=0; i<nums.size(); i++){
+            sum ^= nums[i];
+        }
+        return sum;
+    }
+};

@@ -1,0 +1,43 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+// use unorder map
+// class Solution {
+// public:
+//     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+//         std::unordered_map<ListNode*, int> umap;
+//         while(headA!=NULL){
+//             umap[headA]++;
+//             headA = headA->next;
+//         }
+//         while(headB!=NULL){
+//             if(umap.find(headB)!=umap.end()) break; //find or count
+//             else headB = headB->next;
+//         }
+//         return headB;
+//     }
+// };
+
+// itr1 = headA + headB, itr2 = headB + headA, intersect will be find at some point.
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode * itr1 = headA;
+        ListNode * itr2 = headB;
+
+        while(itr1 != itr2){
+            if(itr1 == NULL) itr1 = headB;
+            if(itr2 == NULL) itr2 = headA;
+            if(itr1 == itr2) break;
+            itr1 = itr1 ->next;
+            itr2 = itr2 ->next;
+        }
+        return itr1;
+    }
+};
+

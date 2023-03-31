@@ -1,17 +1,39 @@
-/*Question: check duplicate num for given vector.
-1. build hash table(unorder_map)
-2. initial pair for checking insert success or not.
-3. output !pair.second as require.
-*/
+// Time Complexity: O(n), Space Complexity: O(2n)
+// class Solution {
+// public:
+//     bool containsDuplicate(vector<int>& nums) {
+//         std::unordered_map<int, int> umap;
+//         for(int i=0; i<nums.size(); i++){
+//             umap[nums[i]]++;
+//             if(umap[nums[i]]>1) return true;
+//         }
+//         return false;
+//     }
+// };
+
+// Time Complexity: O(n), Space Complexity: O(n)
+// class Solution {
+// public:
+//     bool containsDuplicate(vector<int>& nums) {
+//         // ios_base::sync_with_stdio(0); //true: prevent error when use cout, printf together especailly at C
+//         // cin.tie(0); //to remove buffer process, directly get from cin
+//         // cout.tie(0);
+//         std::unordered_set<int> uset;
+//         for(int i=0; i<nums.size(); i++){
+//             if(!uset.insert(nums[i]).second) return true; //insert.second return false if insert failure
+//         }
+//         return false;
+//     }
+// };
+
+// Time Complexity: O(nlogn+n), Space Complexity: O(1)
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        unordered_map<int,int> hash;
-        pair<unordered_map<int,int>::iterator,bool> ans;
-        for(int i=0; i<nums.size();++i){
-            ans = hash.insert(pair(nums[i],i));
-            if (ans.second==false) break;
+        sort(nums.begin(), nums.end());
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i-1]==nums[i]) return true; //same num will be sorted together
         }
-        return !ans.second;
+        return false;
     }
 };

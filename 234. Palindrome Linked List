@@ -8,6 +8,8 @@
  *     ListNode(int x, ListNode *next) : val(x), next(next) {}
  * };
  */
+
+// Time Complexity: O(2n), Space Complexity: O(n)
 // class Solution {
 // public:
 //     bool isPalindrome(ListNode* head) {
@@ -28,18 +30,45 @@
 //     }
 // };
 
+// Time Complexity: O(2n), Space Complexity: O(n)
+// class Solution {
+// public:
+//     bool isPalindrome(ListNode* head) {
+//         if(head==NULL || head->next==NULL) return true;
+//         vector<int> nums;
+//         while(head!=NULL){
+//             nums.push_back(head->val);
+//             head = head->next;
+//         }
+//         for(int i=0, j=nums.size()-1; j>=0; i++,j--){
+//             if(nums[i]!=nums[j]) return false;
+//         }
+//         return true;
+//     }
+// };
+
+// Time Complexity: O(n), Space Complexity: O(n/2)
 class Solution {
 public:
     bool isPalindrome(ListNode* head) {
-        if(head==NULL || head->next==NULL) return true;
-        vector<int> nums;
-        while(head!=NULL){
-            nums.push_back(head->val);
-            head = head->next;
+        ListNode *fast = head;
+        ListNode *revs = NULL;  //reversed LinkList, 1st half
+        // Reverse the first half of the linked list
+        while(fast!=NULL && fast->next!=NULL){  //when fast or fast->next==NULL, slow reach half of LinkList
+            fast = fast->next->next;
+            ListNode *temp = head->next;
+            head->next = revs;
+            revs = head;  //reversed LinkList
+            head = temp;
         }
-        for(int i=0, j=nums.size()-1; j>=0; i++,j--){
-            if(nums[i]!=nums[j]) return false;
+        // If the length of the linked list is odd, move the slow pointer to the next node, slow pointer is 2nd half
+        if(fast!=NULL) head = head->next; 
+        while(revs!=NULL && head!=NULL){  // Check if the reversed 1st half is equal to the 2nd half
+            if(revs->val!=head->val) return false;
+            revs = revs->next;
+            head = head->next;
         }
         return true;
     }
+
 };

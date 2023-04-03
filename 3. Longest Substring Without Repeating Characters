@@ -1,0 +1,15 @@
+//Time Complexity: O(n), Space Complexity: O(n)
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        if(!s[0]) return 0;
+        int substring = 1, prev = 0;
+        unordered_map <char, int> umap;
+        for(int i=0; s[i]; i++){
+           prev = max(prev, umap[s[i]]);
+           substring = max(substring, i + 1 - prev);
+           umap[s[i]] = i + 1;
+        }
+        return substring;
+    }
+};

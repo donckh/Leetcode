@@ -1,0 +1,50 @@
+//Time Complexity: O(n^2), Space Complexity: O(1)
+// class Solution {
+// public:
+//     int expandFromCenter(int i, int j, string s){
+//         while(i>=0 && j<s.length() && s[i]==s[j]){
+//             i--;
+//             j++;
+//         }
+//         return j-i-1; // -1: compensate limit exceed e.g.: i=-1, j=s.length()
+//     }
+//     string longestPalindrome(string s) {
+//         int start = 0, end = 0, max_len = 1;
+//         for(int i=0; s[i]; i++){
+//             int l1 = expandFromCenter(i, i, s);  // odd string case
+//             int l2 = expandFromCenter(i, i+1, s); // even string case
+//             int len = max(l1, l2);
+//             if(end - start + 1 < len){ // +1: include s[start] char
+//                 max_len = len;
+//                 start = i - (len-1)/2;  // even string case need to -1 at start because no center
+//                 end = i + len/2;
+//             }
+//         }
+//         return s.substr(start, max_len);
+//     }
+// };
+
+//Time Complexity: O(n^2), Space Complexity: O(1)
+class Solution {
+public:
+string longestPalindrome(string s) {
+    int len = s.length(), max_len = 1, start = 0;
+    if(s.empty() || s.length()==1) return s;
+    for(int i=0; s[i];){
+        if(len-i<=max_len/2) break;
+        int j=i, k=i;
+        while(k<len-1 && s[k]==s[k+1]) k++;  // Skip duplicate characters, k = last duplicate idx
+        i = k + 1;
+        while(j>0 && k<len-1 && s[j-1]==s[k+1]){ // Expand substr
+            j--;
+            k++;
+        }
+        int len = k-j+1; // +1: include s[j]
+        if(max_len<len){
+            max_len = len;
+            start = j;
+        }
+    }
+    return s.substr(start, max_len);
+}
+};

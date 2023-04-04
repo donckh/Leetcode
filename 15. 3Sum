@@ -1,0 +1,27 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        int i, j, k, sum=0, len=nums.size();
+        vector<vector<int>> ans;
+        // set<vector<int>> temp;  // unorder set(hash) no vector
+        sort(nums.begin(), nums.end());
+        for(i=0; i<len; i++){
+            if(i>0 && nums[i]==nums[i-1]) continue; //duplicate nums(exist in many test cases)
+            for(j=i+1, k=len-1; j<k;){
+                sum = nums[i]+nums[j]+nums[k];
+                if(sum==0){
+                    // temp.insert({nums[i], nums[j], nums[k]});
+                    ans.push_back({nums[i], nums[j], nums[k]});
+                    j++;
+                    k--;
+                    while(j<k && nums[j]==nums[j-1]) j++; //duplicate nums(exist in many test cases)
+                }
+                else if(sum<0) j++;
+                else k--;
+            }
+        }
+        // for(auto i: temp) ans.push_back(i);
+        return ans;
+    }
+};

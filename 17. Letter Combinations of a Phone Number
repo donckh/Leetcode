@@ -1,0 +1,24 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+class Solution {
+public:
+    vector<string> letterCombinations(string digits) {
+        if(digits.empty()) return {};
+        vector<string> ans, temp;
+        vector<string> nums={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+        ans.push_back("");
+        for(int i=0; digits[i]; i++){
+            temp.clear();
+            // for(auto c2: nums[digits[i]-'0']){
+            for(int c2=0; c2<nums[digits[i]-'0'].size(); c2++){ 
+                // for(auto c1: ans){
+                for(int c1=0; c1<ans.size(); c1++){
+                    // temp.push_back(c1+c2);
+                    temp.push_back(ans[c1]+nums[digits[i]-'0'][c2]);
+                }
+            }
+            ans.clear();
+            ans=temp;
+        }
+        return ans;
+    }
+};

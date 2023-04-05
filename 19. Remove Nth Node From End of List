@@ -1,0 +1,54 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+// Time Complexity: O(n), Space Complexity: O(1)
+// class Solution {
+// public:
+//     ListNode* removeNthFromEnd(ListNode* head, int n) {
+//         int cnt=0;
+//         ListNode *curr = new ListNode();
+//         ListNode *start = curr;
+//         curr -> next = head;
+//         // if(curr) cnt++;
+//         while(curr && curr->next){
+//             curr = curr->next;
+//             cnt++;
+//         }
+//         // cnt = cnt - n - 1;
+//         cnt -=n;
+//         curr = start;
+//         while(curr && curr->next){
+//             if(cnt==0) curr->next = curr->next->next;
+//             curr = curr->next;
+//             cnt--;
+//         }
+//         if(cnt==0) curr->next = curr->next->next;
+//         return start->next;
+//     }
+// };
+
+// Time Complexity: O(n), Space Complexity: O(1)
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode *fast = head;
+        ListNode *slow = head;
+        for(int i=0; i<n; i++){
+            fast = fast->next;
+        }
+        if(!fast) return head->next;
+        while(fast && fast->next){
+            fast = fast->next;
+            slow = slow->next;
+        }
+        slow->next = slow->next->next;
+        return head;
+    }
+};

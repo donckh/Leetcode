@@ -1,0 +1,29 @@
+//Time Complexity: O(1), Space Complexity: O(1)
+//shift bitwise
+//reference: https://leetcode.com/problems/divide-two-integers/solutions/1516367/complete-thinking-process-intuitive-explanation-all-rules-followed-c-code/
+class Solution {
+public:
+    int divide(int dividend, int divisor) {
+        long ans = 0;
+        bool sign = false;
+        if(dividend>0 && divisor>0 || dividend<0 && divisor<0)
+            sign = true;
+        long dd = abs(dividend), ds = abs(divisor);
+        while(dd>=ds){  //while dividend > divisor
+            int quo = 0;  //quotient = power of 2
+            while(dd>(ds<<(quo+1))) quo++;  // cal q of ds which small than dd
+            if(quo>32) quo = 31; //prevent bit shift exceed 31
+            ans += (1<<quo);  //save this loop quo until dd<ds
+            dd = dd - (ds<<quo);
+        }
+        if(sign){
+            if(ans>INT_MAX) return INT_MAX;
+            return ans;
+        }
+        else{
+            if(-ans<INT_MIN) return INT_MIN;
+            return -ans;
+        }    
+        return ans;
+    }
+};

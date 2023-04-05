@@ -1,0 +1,20 @@
+//Time Complexity: O(n^2), Space Complexity: O(n^2)
+class Solution {
+public:
+    vector<string> ans;
+    void gp(int left, int right, string s){
+        if(left<0 || right<0) return;
+        if(left==0 && right==0){
+            ans.push_back(s);
+            return;
+        }
+        gp(left-1, right, s+'('); 
+        //1st loop: recursive get all first left parantheses case
+        //2nd loop: recursive get all 2 x left parantheses case, etc.
+        if(right>left) gp(left, right-1, s+')');
+    }
+    vector<string> generateParenthesis(int n) {
+        gp(n, n, "");  //recursive
+        return ans;
+    }
+};

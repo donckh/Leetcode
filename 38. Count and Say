@@ -1,0 +1,47 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+//question: recursively to repeat from "1"->"11"->"21"->"1211"->... until output countAndSay(n)
+// class Solution {
+// public:
+//     string countAndSay(int n) {
+//         if(n==1) return "1";
+//         string ans="", prev = countAndSay(n-1) + " ";  //space for add last digit.
+//         int cnt=0;
+//         char say = prev[0];
+//         for(int i=0; i<prev.length();i++){
+//             if(say==prev[i]){ 
+//                 cnt++;
+//             }
+//             else{
+//                 ans += to_string(cnt) + say;
+//                 cnt = 1;
+//                 say = prev[i];
+//             }
+//         }
+//         return ans;
+//     }
+// };
+
+//Time Complexity: O(n^2), Space Complexity: O(n)
+//for loop
+class Solution {
+public:
+    string countAndSay(int n) {
+       string prev="1", curr = "";
+       for(int i=2; i<=n; i++){
+           int cnt=1;
+           for(int j=1; j<prev.length(); j++){
+               if(prev[j-1]==prev[j]) cnt++;
+               else{
+                   curr += cnt+'0';
+                   curr += prev[j-1];
+                   cnt = 1;
+                }
+            }
+            curr += cnt+'0';  //add last digit cnt
+            curr += prev[prev.length()-1];  //add last digit
+            prev = curr;
+            curr = "";  //reset curr
+       }
+       return prev;
+    }
+};

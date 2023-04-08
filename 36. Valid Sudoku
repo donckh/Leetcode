@@ -1,0 +1,45 @@
+//Time Complexity: O(n^2), Space Complexity: O(n^2)
+// class Solution {
+// public:
+//     bool isValidSudoku(vector<vector<char>>& board) {
+//         bool valid = true;
+//         vector<set<char>> row(9), col(9);
+//         vector<vector<set<char>>> subBox(9, vector<set<char>>(9));
+//         for(int i=0; i<9 && valid; i++){
+//             for(int j=0; j<9 && valid; j++){
+//                 if(board[i][j]=='.') continue;
+//                 else{
+//                     if(!row[i].insert(board[i][j]).second) valid = false;
+//                     if(!col[j].insert(board[i][j]).second) valid = false;
+//                     if(!subBox[i/3][j/3].insert(board[i][j]).second) valid = false;
+//                 }
+//             }
+//         }
+//         return valid;
+//     }
+// };
+
+//Time Complexity: O(n^2), Space Complexity: O(n^2)
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+        bool valid = true;
+        int row[9][9]={0}, col[9][9]={0}, box[9][9]={0};  //use int array to speedup
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                if(board[i][j]=='.') continue;
+                else{
+                    int subbox = (i/3)*3 + j/3, temp = board[i][j]-'1';
+                    
+                    row[i][temp]++;
+                    col[temp][j]++;
+                    box[subbox][temp]++;
+                    if(row[i][temp]>1) return false;  //use return directly to speedup
+                    if(col[temp][j]>1) return false;
+                    if(box[subbox][temp]>1) return false;
+                }
+            }
+        }
+        return valid;
+    }
+};

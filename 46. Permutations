@@ -1,0 +1,22 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+//swap every element in loop -> permutations
+class Solution {
+private:
+    void generate(vector<int> vec, int start, int end, vector<vector<int>> &ans){
+        if(start==end){
+            ans.push_back(vec);
+            return;
+        }
+        for(int i=start; i<end+1; i++){
+            swap(vec[i], vec[start]);  //swap element as base and input to next loop
+            generate(vec, start+1, end, ans);
+        }
+    }
+
+public:
+    vector<vector<int>> permute(vector<int>& nums) {
+        vector<vector<int>> ans;
+        generate(nums, 0, nums.size()-1, ans);
+        return ans;
+    }
+};

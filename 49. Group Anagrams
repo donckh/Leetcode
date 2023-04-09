@@ -1,0 +1,77 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+// class Solution {
+// public:
+//     vector<vector<string>> groupAnagrams(vector<string>& strs) {
+//         if(strs.size()==0) return {{""}};
+//         vector<vector<string>> ans;
+//         vector<string> temp;
+//         string str = strs[0];
+//         sort(str.begin(), str.end());
+//         temp.push_back(str);
+//         ans.push_back({strs[0]});
+//         bool found = false;
+
+//         for(int i=1; i<strs.size(); i++){
+//             str = strs[i];
+//             sort(str.begin(), str.end());
+//             for(int j=0; j<temp.size() && !found; j++){
+//                 if(str==temp[j]){
+//                     ans[j].push_back(strs[i]);
+//                     found = true;
+//                     break;
+//                 }
+//             }
+//             if(!found){ 
+//                 ans.push_back({strs[i]});
+//                 temp.push_back(str);
+//             }
+//             found = false;
+//         }
+
+//         return ans;
+//     }
+// };
+
+//Time Complexity: O(n^2), Space Complexity: O(n)
+//1st: use unordered map to optimize
+// class Solution {
+// public:
+//     vector<vector<string>> groupAnagrams(vector<string>& strs) {
+//         unordered_map <string, vector<string>> umap;
+//         vector<vector<string>> ans;
+//         for(int i=0; i<strs.size(); i++){
+//             string str = strs[i];
+//             sort(str.begin(), str.end());
+//             umap[str].push_back(strs[i]);
+//         }
+//         for(auto i: umap){
+//             ans.push_back(i.second);
+//         }
+//         return ans;
+//     }
+// };
+
+//Time Complexity: O(n^2), Space Complexity: O(n)
+//2nd: use unordered map to optimize
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map <string, int> umap;
+        vector<vector<string>> ans;
+        int idx = 0;
+        if(strs.size()==0) return {{""}};
+        for(int i=0; i<strs.size(); i++){
+            string str = strs[i];
+            sort(str.begin(), str.end());
+            if(umap.count(str)>0){
+                ans[umap[str]].push_back(strs[i]);
+            }
+            else{
+                ans.push_back({strs[i]});
+                umap[str] = idx++;
+            }
+        }
+
+        return ans;
+    }
+};

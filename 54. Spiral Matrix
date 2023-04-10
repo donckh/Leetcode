@@ -1,0 +1,80 @@
+//Time Complexity: O(n), Space Complexity: O(n)
+// class Solution {
+// public:
+//     vector<int> spiralOrder(vector<vector<int>>& matrix) {
+//         int row = matrix.size(), col = matrix[0].size();
+//         int r=0, c=0, idx=row*col, row_start = 0, col_start = 0;
+//         vector<vector<bool>> visited(row, vector<bool>(col, false));
+//         vector<int> ans;
+//         while(idx>0){
+//             for(c=col_start; c<col && !visited[r][c]; c++){
+//                 ans.push_back(matrix[r][c]);
+//                 visited[r][c]=true;
+//                 idx--;
+//             }
+//             col--;
+//             c--;
+//             for(r=row_start+1; r<row && !visited[r][c]; r++){
+//                 ans.push_back(matrix[r][c]);
+//                 visited[r][c]=true;
+//                 idx--;
+//             }
+//             row--;
+//             r--;
+//             for(c=col-1; c>=col_start && !visited[r][c]; c--){
+//                 ans.push_back(matrix[r][c]);
+//                 visited[r][c]=true;
+//                 idx--;
+//             }
+//             col_start++;
+//             c++;
+//             for(r=row-1; r>=row_start && !visited[r][c]; r--){
+//                 ans.push_back(matrix[r][c]);
+//                 visited[r][c]=true;
+//                 idx--;
+//             }
+//             row_start++;
+//             r++;
+//         }
+//         return ans;
+//     }
+// };
+
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        vector<int> ans;
+        int row=matrix.size(), col=matrix[0].size();
+        int rTop=0, rBottom=row-1, cLeft=0, cRight=col-1, idx=row*col;
+        while(idx>0){
+            if(idx>0)  //trick for shortest runtime rather than in for loop
+                for(int c=cLeft; c<=cRight; c++){  //from start column to the end column
+                    ans.push_back(matrix[rTop][c]);
+                    idx--;
+                }
+            if(idx>0)
+                for(int r=rTop+1; r<=rBottom-1; r++){  //from start row+1 to the end row-1
+                    ans.push_back(matrix[r][cRight]);
+                    idx--;
+                }
+            if(idx>0)
+                for(int c=cRight; c>=cLeft; c--){  //from the end column to start column
+                    ans.push_back(matrix[rBottom][c]);
+                    idx--;
+                }
+            
+            if(idx>0)
+                for(int r=rBottom-1; r>=rTop+1; r--){  //from the end row-1 to start row+1
+                    ans.push_back(matrix[r][cLeft]);
+                    idx--;
+                }
+            
+            rTop++;
+            rBottom--;
+            cLeft++;
+            cRight--;
+        }
+        return ans;
+    }
+};

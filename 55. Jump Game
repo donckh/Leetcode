@@ -1,0 +1,32 @@
+//Time Complexity: O(n^2), Space Complexity: O(n)
+// class Solution {
+// public:
+//     bool canJump(vector<int>& nums) {
+//         int len = nums.size();
+//         vector<bool> valid(len, 0);  //vector for record step can jump
+//         valid[0]=true;
+//         for(int i=0; i<len; i++){
+//             if(valid[i]){
+//                 if(i+nums[i]+1>=len) return true;  //if can reach last
+//                 for(int j=0; i+j<len && j<=nums[i]; j++){
+//                     valid[i+j] = true;
+//                 }
+//             }
+//         }
+//         return false;
+//     }
+// };
+
+//Time Complexity: O(n), Space Complexity: O(1)
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int jump=0, len=nums.size();
+        for(int i=0; i<len; i++){
+            if(jump<i) return false;
+            // if(i+nums[i]+1>=len) return true;
+            jump = max(jump, i+nums[i]);  //i+nums[i]: step can reach
+        }
+        return true;
+    }
+};

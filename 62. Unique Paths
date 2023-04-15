@@ -1,0 +1,18 @@
+//Time Complexity: O(mn), Space Complexity: O(mn)
+//question: how many path from start to finish
+class Solution {
+public:
+    int uniquePaths(int m, int n) {
+        if(m==0 || n==0) return 1;
+        //int dp[m+1][n+1];  //cannot directly initial dp={0} as m&n are variables
+        // memset(dp, 0, sizeof(dp));
+        vector<vector<int>> dp(m+1, vector<int> (n+1,0));
+        dp[0][1] = 1;
+        for(int i=1; i<=m; i++){
+            for(int j=1; j<=n; j++){
+                dp[i][j] = dp[i][j-1] + dp[i-1][j];
+            }
+        }
+        return dp[m][n];
+    }
+};

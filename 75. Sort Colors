@@ -1,0 +1,36 @@
+//Time Complexity: O(n^2), Space Complexity: O(1)
+//sort algorithm
+// class Solution {
+// public:
+//     void sortColors(vector<int>& nums) {
+//         int len = nums.size();
+//         for(int i=0; i<len-1; i++){  //swap the largest element from begin to end
+//             bool sort=true;
+//             for(int j=0; j<len-i-1; j++){  // 1 loop: shift 1 position
+//                 if(nums[j]>nums[j+1]){
+//                     swap(nums[j], nums[j+1]);
+//                     sort=false;
+//                 }
+//             }
+//             if(sort) break;
+//         }
+//     }
+// };
+
+//Time Complexity: O(n), Space Complexity: O(1)
+//question specified ans
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int start=0, len=nums.size(), end=len-1;
+        while(start<len && nums[start]==0) start++;
+        while(end>start && nums[end]==2) end--;
+
+        for(int i=start; i<=end; i++){
+            if(nums[i]==2) swap(nums[end--], nums[i]);
+            if(nums[i]==0) swap(nums[start++], nums[i]);
+            else if(nums[i]==2) i--;
+        }
+    }
+};
+

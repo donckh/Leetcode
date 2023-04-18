@@ -1,0 +1,24 @@
+//Time Complexity: O(n), Space Complexity: O(n)
+class Solution {
+public:
+    // int dfs(string s, int cnt, vector<int> &dp){
+    int dfs(string s, int cnt, int *dp){
+        if(cnt >= s.size()) return 1;  // ans+1
+        if(dp[cnt]!=-1) return dp[cnt];
+        
+        int ans = 0, c1 = s[cnt] - '0', c2=0;
+        if(cnt+1<s.size()) c2 = c1 * 10 + s[cnt+1]-'0';  //if not end of string
+        // else c2 = 0;
+
+        if(c1>0) ans += dfs(s, cnt+1, dp);  //if c1 not 0, ans+recursive loop
+        if(c1>0 && c2>0 &&c2<27) ans += dfs(s, cnt+2, dp);  //if c2 is 1~26, ans+recursive loop
+        return dp[cnt]=ans; //dp[cnt]=ans and return ans;
+    }
+
+    int numDecodings(string s) {
+        // vector<int> dp(101, -1);  //dp to record previous combination
+        int dp[101];
+        memset(dp, -1, sizeof(dp));
+        return dfs(s, 0, dp);
+    }
+};

@@ -1,0 +1,56 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+//Time Complexity: O(n), Space Complexity: O(n)
+//DFS
+// class Solution {
+// public:
+//     void bst(TreeNode *node, vector<vector<int>> &ans, int cnt){
+//         if(!node) return;
+//         if(cnt>=ans.size()) ans.push_back({});  //initial array
+//         ans[cnt].push_back(node->val);  //push back val at initial array
+//         if(node->left) bst(node->left, ans, cnt+1);  //next level
+//         if(node->right) bst(node->right, ans, cnt+1);
+//     }
+
+//     vector<vector<int>> levelOrder(TreeNode* root) {
+//         vector<vector<int>> ans;
+//         if(!root) return ans;
+//         bst(root, ans, 0);
+//         return ans;
+//     }
+// };
+
+//Time Complexity: O(n), Space Complexity: O(n)
+//BFS
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> ans;
+        
+        queue<TreeNode*> q;
+        if(!root) return ans;
+        q.push(root);
+        while(!q.empty()){
+            int size = q.size();  // size of this level
+            vector<int> temp;  //this level vector
+            while(size--){
+                TreeNode* node = q.front();
+                temp.push_back(node->val);
+                q.pop();  //remove this level node
+                if(node->left) q.push(node->left);  //push for next level size
+                if(node->right) q.push(node->right);
+            }
+            ans.push_back(temp);
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,68 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* left;
+    Node* right;
+    Node* next;
+
+    Node() : val(0), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val) : val(_val), left(NULL), right(NULL), next(NULL) {}
+
+    Node(int _val, Node* _left, Node* _right, Node* _next)
+        : val(_val), left(_left), right(_right), next(_next) {}
+};
+*/
+// Time Complexity: O(n), Space Complexity: O(n)
+// sol: use queue to record same level node and if it is the end of right node = NULL
+// class Solution {
+// public:
+//     Node* connect(Node* root) {
+//         if(!root) return root;
+//         root->next = NULL;
+//         queue<Node*> q;
+//         q.push(root);
+//         while(!q.empty()){
+//             int size = q.size();
+//             for(int i=0; i<size; i++){
+//                 Node * temp = q.front();
+//                 q.pop();
+//                 if(temp->left){
+//                     temp->left->next = temp->right;
+//                     q.push(temp->left);
+//                 }
+//                 if(temp->right){
+//                     if(i+1<size) temp->right->next = q.front()->left;
+//                     else temp->right->next = NULL;
+//                     q.push(temp->right);
+//                 }
+//             }
+//         }
+//         return root;
+//     }
+// };
+
+// Time Complexity: O(n), Space Complexity: O(1)
+// recursive method
+class Solution {
+public:
+    Node* connect(Node* root) {
+        if (!root) return root;
+        if (!root->left && !root->right) return root;
+        
+        Node* curr_left = root->left;
+        Node* curr_right = root->right;
+        while (curr_left && curr_right) {  // connect children right to left
+            curr_left->next = curr_right;
+            curr_left = curr_left->right;
+            curr_right = curr_right->left;
+        }
+        
+        connect(root->left);
+        connect(root->right);
+        
+        return root;
+    }
+};

@@ -1,0 +1,46 @@
+// Time Complexity: O(n), Space Complexity: O(n)
+// Sol: check all nums and its max/min, add to add if idx of min < idx of max && max-min>0
+// class Solution {
+// public:
+//     int maxProfit(vector<int>& prices) {
+//         int size = prices.size();
+//         if(size==1) return 0;
+//         unordered_map <int,int> umap;
+//         int num1=prices[0], num2=prices[1], ans=0;
+//         // umap[num1] = 0, umap[num2] = 1;
+//         for(int i=1; i<size; i++){
+//             if(prices[i-1]<=num1){
+//                 num1 = prices[i-1];
+//                 umap[num1] = i-1;
+//                 num2 = num1;  // update max num
+//             }
+//             if(prices[i]>=num2){
+//                 num2 = prices[i];
+//                 umap[num2] = i;
+//             }
+//             if(umap[num2]>umap[num1] && num2-num1>0){ 
+//                 ans += num2-num1;
+//                 num1=num2;  // update min num
+//                 num2=0;
+//             }
+//         }
+//         if(ans>0) return ans;
+//         return 0;
+//     }
+// };
+
+// Time Complexity: O(n), Space Complexity: O(1)
+// Sol: simple case for check every day price and compare
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int sum=0;
+
+        for(int i=1;i<prices.size();i++){
+            if(prices[i]>prices[i-1])
+                sum+=prices[i]-prices[i-1];
+        }
+
+        return sum;
+    }
+};

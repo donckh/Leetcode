@@ -1,0 +1,22 @@
+//Time Complexity: O(n), Space Complexity: O(1)
+//Sol: check if current gas<0, if so, idx=current idx+1;
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int sum=0, curr=0, idx=0;
+        // int total_gas=0, total_cost=0, curr=0, idx=0;
+        for(int i=0; i<gas.size(); i++){
+            curr += gas[i]-cost[i];
+            sum += gas[i]-cost[i];
+            // total_gas += gas[i];
+            // total_cost += cost[i];
+            if(curr<0){  //reset if current route cannot be a loop
+                idx = i+1;
+                curr=0;
+            }
+        }
+        if(sum>=0) return idx;
+        // if(total_gas>=total_cost) return idx;
+        return -1;
+    }
+};

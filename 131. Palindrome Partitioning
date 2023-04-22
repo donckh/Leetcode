@@ -1,0 +1,32 @@
+// Time Complexity: O(n^2), Space Complexity: O(n)
+class Solution {
+public:
+    vector<vector<string>> ans;
+    bool pal(string str){
+        int len = str.length();
+        for(int i=0; i<len/2; i++){
+            if(str[i]!=str[len-1-i]) return false;
+        }
+        return true;
+    }
+    void substring(int idx, vector<string> &temp, string s){
+        int len=s.length();
+        if(idx==len){
+            ans.push_back(temp);
+            return;
+        }
+        for(int i=idx; i<len; i++){
+            string sub = s.substr(idx, i-idx+1);  //substr start from idx till the end
+            if(pal(sub)){   //if palindrome string
+                temp.push_back(sub);
+                substring(i+1, temp, s);  // next recursive loop, start from different sub
+                temp.pop_back();  //clear temp for next loop
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        vector<string> temp;
+        substring(0, temp, s);
+        return ans;
+    }
+};

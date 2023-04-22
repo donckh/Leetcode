@@ -1,0 +1,35 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* next;
+    Node* random;
+    
+    Node(int _val) {
+        val = _val;
+        next = NULL;
+        random = NULL;
+    }
+};
+*/
+//Time Complexity: O(n), Space Complexity:O(n)
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        // if(!head) return NULL;
+        Node* ptr = head;
+        unordered_map<Node*, Node*> umap;
+        while(ptr){
+            umap[ptr] = new Node(ptr->val);  // new node corresponding to old node
+            ptr = ptr->next;
+        }
+        ptr = head;
+        while(ptr){
+            umap[ptr]->next = umap[ptr->next];  //change node list one by one;
+            umap[ptr]->random = umap[ptr->random];
+            ptr=ptr->next;
+        }
+        return umap[head];
+    }
+};

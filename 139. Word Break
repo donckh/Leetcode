@@ -1,0 +1,19 @@
+//Time Complexity: O(n^3) 2 loop and substr, Space Complexity: O(n)
+//Sol: find substring in set and check sub-substring in set until the end
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> uset(wordDict.begin(), wordDict.end());
+        int size = s.size();
+        vector<bool> dp(size+1, 0);
+        dp[0]=true;
+        for(int i=0; i<size; i++){
+            if(!dp[i]) continue;
+            for(int j=i+1; j<=size; j++){  //dp[0] is initial value, j is from [1, size]
+                if(uset.count(s.substr(i, j-i))) dp[j]=true;
+            }
+        }
+        return dp[size];
+    }
+};

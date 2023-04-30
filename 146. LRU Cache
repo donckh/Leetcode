@@ -1,0 +1,49 @@
+//Time Complexity: O(n), Space Complexity: O(n)
+class LRUCache {
+public:
+    unordered_map <int, pair<list<int>::iterator, int>> umap;  
+    // <key, pair<list::iterator, value>, iter: location of element at list
+    list<int> lru;
+    int size;
+    LRUCache(int capacity) {
+        size = capacity;
+    }
+    
+    void moveToFirst(int key){
+        lru.erase(umap[key].first);  //remove key in list according to location of key
+        lru.push_front(key);  //add key in the front
+        umap[key].first = lru.begin();
+    }
+
+    int get(int key) {
+        if(umap.find(key)!=umap.end()){
+            moveToFirst(key);
+            return umap[key].second;
+        }
+        else return -1;
+    }
+    
+    void put(int key, int value) {
+        if(umap.find(key)!=umap.end()){
+            umap[key].second = value;  // update value
+            moveToFirst(key);
+        }
+        else{
+            lru.push_front(key);
+            umap[key] = {lru.begin(), value};
+            size--;
+        }
+        if(size<0){
+            umap.erase(lru.back());
+            lru.pop_back();
+            size++;
+        }
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */

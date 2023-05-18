@@ -69,6 +69,7 @@
 
 
 //trick
+//Time complexity: O(n), Space Complexity: O(n)
 class Solution {
 public:
     vector<int> sortArray(vector<int>& nums) {

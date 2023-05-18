@@ -1,0 +1,94 @@
+/*quick sort: TLE
+1. set base 
+2. find i(larger than base), j(small than base), swap them until i==j
+3. swap base and i
+4. quick sort sub-array: (left, i-1) & (i+1, right)
+*/
+//Time complexity: O(nlogn to n^2), space complexity: O(1)
+// class Solution {
+// public:
+//     void quicksort(vector<int>& nums, int left, int right){
+//         if(left>=right) return;
+//         int base = left;
+//         int i = left, j = right;
+//         // int temp;
+//         while(i!=j){
+//             while(nums[i]<nums[base]  && i<j) i++;
+//             while(nums[j]>=nums[base] && i<j) j--;
+//             if(i<j) swap(nums[i], nums[j]);
+//         }
+//         swap(nums[base], nums[i]);
+//         quicksort(nums, left, i-1);
+//         quicksort(nums, j+1, right);
+//     }
+
+//     vector<int> sortArray(vector<int>& nums) {
+//         if(nums.size()<2) return nums;
+//         quicksort(nums, 0, nums.size()-1);
+//         return nums;
+//     }
+// };
+
+/* Merge sort
+1. divide and conquer: divide array to sub-array until single element
+2. merge sub-array by order/sequence, this question is ascending order
+3. recursive repeat previous steps.
+*/
+//Time complexity: O(nlogn), Space Complexity: O(n)
+// class Solution {
+// private:
+//     vector<int> mergeSort(vector<int>& nums){
+//         // int size = nums.size();
+//         if(nums.size()<2) return nums;
+//         int mid = nums.size()/2;
+//         vector<int> left(nums.begin(), nums.begin()+mid);
+//         vector<int> right(nums.begin()+mid, nums.end());
+//         left = mergeSort(left);  // divide array to left part
+//         right = mergeSort(right);  // divide array to right part
+//         return merge(left, right);
+//     }
+    
+//     vector<int> merge(vector<int>& left, vector<int>& right){
+//         int leftIdx=0, rightIdx=0, idx=0, leftSize=left.size(), rightSize=right.size();
+//         vector<int> result(leftSize+rightSize);
+//         while(leftIdx<leftSize && rightIdx<rightSize){  //sort array and place to merge array
+//             if(left[leftIdx] < right[rightIdx]) result[idx++] = left[leftIdx++];
+//             else result[idx++] = right[rightIdx++];
+//         }
+//         while(leftIdx<leftSize) result[idx++] = left[leftIdx++];
+//         while(rightIdx<rightSize) result[idx++] = right[rightIdx++];
+//         return result;
+//     }
+
+
+// public:
+//     vector<int> sortArray(vector<int>& nums) {
+//         return mergeSort(nums);
+//     }
+// };
+
+
+//trick
+class Solution {
+public:
+    vector<int> sortArray(vector<int>& nums) {
+        int maxValue = nums[0], minValue = nums[0], size1=nums.size(), idx=0;
+        for(int i=1; i<size1; i++){  // get max and min
+            // if(nums[i]>maxValue) maxValue=nums[i];
+            // if(nums[i]<minValue) minValue=nums[i];
+            maxValue= max(maxValue, nums[i]);
+            minValue= min(minValue, nums[i]);
+        }
+        int size2 = maxValue-minValue;
+        vector<int> temp(size2+1, 0);
+        for(int i=0; i<size1; i++){  //record exists value at array
+            temp[nums[i]-minValue] += 1;
+        }
+        for(int i=0; i<=size2; i++){
+            for(int j=0; j<temp[i]; j++, idx++){  //if value exist, save it in nums
+                nums[idx] = i + minValue;
+            }
+        }
+        return nums;
+    }
+};

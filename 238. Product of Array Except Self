@@ -1,0 +1,31 @@
+/*
+Question: make an array multiply to nums array, and result as the same element.
+1. 1 element times another element until the last one.
+2. repeat from the end agian to complete the ans.
+*/
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int prefixSum = 1, n = nums.size();
+        vector<int> result(n, 1);
+        for (int i = 0; i < n - 1; i++) {
+            result[i + 1] = prefixSum * nums[i];
+            prefixSum *= nums[i];
+        }
+        /* i=0: rs = [1, 1], pS = 1x1 = 1 
+        i=1: rs = [1, 1, 2], pS = 1x2 = 2
+        i=2: rs = [1, 1, 2, 6], pS = 2x3 = 6
+        */
+        prefixSum = 1;
+        for (int i = n - 1; i > 0; i--) {
+            result[i - 1] *= prefixSum * nums[i];
+            prefixSum *= nums[i];
+        }
+        /* i=2: rs = [1, 1, 8, 6], pS = 1x4 = 4 
+        i=1: rs = [1, 12, 8, 6], pS = 4x3 = 12 
+        i=0: rs = [24, 12, 8, 6], pS = 12x2 = 24
+        */
+        return result;
+    }
+};

@@ -1,13 +1,30 @@
-//Time Complexity: O(n), Space Complexity: O(1)
+/* Question: Find the max sum of array.
+1. Set 2 sum.
+2. Use the current sum to compare previous sum, take the max one.
+*/
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-        int sum=0, max=nums[0], len=nums.size();
-        for(int i=0; i<len; i++){
-            sum+=nums[i];
-            if(sum>max) max = sum;
-            if(sum<0) sum = 0;
+        int sum, temp;
+        sum = temp = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            temp = max(nums[i], temp + nums[i]); //add the next value
+            sum = max(sum, temp);  //compare to previous sum with current sum
         }
-        return max;
+        return sum;
     }
 };
+
+//Time Complexity: O(n), Space Complexity: O(1)
+// class Solution {
+// public:
+//     int maxSubArray(vector<int>& nums) {
+//         int sum=0, max=nums[0], len=nums.size();
+//         for(int i=0; i<len; i++){
+//             sum+=nums[i];
+//             if(sum>max) max = sum;
+//             if(sum<0) sum = 0;
+//         }
+//         return max;
+//     }
+// };

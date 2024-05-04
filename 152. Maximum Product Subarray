@@ -1,0 +1,16 @@
+/* Question: find the max product sub array
+*/
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int prv_max_sum, cur_max_sum, min_sum, ans;
+        prv_max_sum = cur_max_sum = min_sum = ans = nums[0];
+        for(int i=1;i<nums.size();i++){
+            cur_max_sum = max(nums[i], max(prv_max_sum * nums[i], min_sum * nums[i])); //array to i, array from i
+            min_sum = min(nums[i], min(prv_max_sum * nums[i], min_sum * nums[i]));
+            prv_max_sum = cur_max_sum;  //for next loop
+            ans = max(ans, cur_max_sum); //record ans
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,18 @@
+/* Question: find the start point of sorted array.
+use binary search tree for faster search
+*/
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int ans, num;
+        ans = num = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            if(num < nums[i]) num = nums[i];
+            else {
+                ans = nums[i];
+                break;
+            }
+        }
+        return ans;
+    }
+};

@@ -1,25 +1,48 @@
-//binary search
-//Time Complexity: O(logn), Space Complexity: O(1)
+/* Question: find target location in array or output -1
+*/
 class Solution {
 public:
     int search(vector<int>& nums, int target) {
-        int left = 0, right = nums.size()-1, mid;
-        while(left<=right){
-            mid = left + (right-left)/2;
-            if(nums[mid]==target) return mid;
+        int left = 0, mid, right = nums.size()-1;
+        while(left <= right){
+            mid = (left + right) / 2;
+            if(nums[mid] == target) return mid;
+            if(nums[left] <= nums[mid]){ //sorted array
+                if(nums[left] <= target && target < nums[mid]) //target in left array
+                    right = mid - 1;
+                else left = mid + 1;
+            }
+            else{ //sorted array
+                if(nums[right] >= target && target > nums[mid]) //target in right array
+                    left = mid + 1;
+                else right = mid - 1;
+            }
 
-            // if(nums[mid]>=nums[left]){  //slow comparison
-            if(nums[mid]>=nums[0]){  // check in 1st part of array
-                if(nums[mid]>=target && target>=nums[left])
-                    right = mid-1;
-                else left = mid+1;
-            }
-            else{  // 2nd part of array
-                if(nums[mid]<=target && target<=nums[right])
-                    left = mid+1;
-                else right = mid-1;
-            }
         }
         return -1;
     }
 };
+
+// class Solution {
+// public:
+//     int search(vector<int>& nums, int target) {
+//         int left = 0, right = nums.size()-1, mid;
+//         while(left<=right){
+//             mid = left + (right-left)/2;
+//             if(nums[mid]==target) return mid;
+
+//             // if(nums[mid]>=nums[left]){  //slow comparison
+//             if(nums[mid]>=nums[0]){  // check in 1st part of array
+//                 if(nums[mid]>=target && target>=nums[left])
+//                     right = mid-1;
+//                 else left = mid+1;
+//             }
+//             else{  // 2nd part of array
+//                 if(nums[mid]<=target && target<=nums[right])
+//                     left = mid+1;
+//                 else right = mid-1;
+//             }
+//         }
+//         return -1;
+//     }
+// };

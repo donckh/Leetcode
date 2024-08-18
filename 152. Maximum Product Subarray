@@ -1,15 +1,37 @@
 /* Question: find the max product sub array
 */
+// class Solution {
+// public:
+//     int maxProduct(vector<int>& nums) {
+//         int prv_max_sum, cur_max_sum, min_sum, ans;
+//         prv_max_sum = cur_max_sum = min_sum = ans = nums[0];
+//         for(int i=1;i<nums.size();i++){
+//             cur_max_sum = max(nums[i], max(prv_max_sum * nums[i], min_sum * nums[i])); //array to i, array from i
+//             min_sum = min(nums[i], min(prv_max_sum * nums[i], min_sum * nums[i]));
+//             prv_max_sum = cur_max_sum;  //for next loop
+//             ans = max(ans, cur_max_sum); //record ans
+//         }
+//         return ans;
+//     }
+// };
+
+/* Question: find the max product sub-array
+Ans: 1. create max sub-array
+2. initial max sub-array and max value by nums[0] 
+3.multiple sub-array and compare it
+*/
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        int prv_max_sum, cur_max_sum, min_sum, ans;
-        prv_max_sum = cur_max_sum = min_sum = ans = nums[0];
-        for(int i=1;i<nums.size();i++){
-            cur_max_sum = max(nums[i], max(prv_max_sum * nums[i], min_sum * nums[i])); //array to i, array from i
-            min_sum = min(nums[i], min(prv_max_sum * nums[i], min_sum * nums[i]));
-            prv_max_sum = cur_max_sum;  //for next loop
-            ans = max(ans, cur_max_sum); //record ans
+        long long max_sub, min_sub, temp, ans, one=1; // long long prefend overflow
+        ans = temp = max_sub = min_sub = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            if(temp>INT_MAX || temp<INT_MIN) temp=1;  // prefend overflow
+            if(min_sub>INT_MAX || min_sub<INT_MIN) min_sub=1; // prefend overflow
+            max_sub = max(nums[i]*one, max(temp*nums[i], min_sub*nums[i])); //long long cannot compare to int
+            min_sub = min(nums[i]*one, min(temp*nums[i], min_sub*nums[i])); 
+            temp = max_sub;
+            ans = max(max_sub, ans);
         }
         return ans;
     }

@@ -1,47 +1,42 @@
-/* Question: find the start point of sorted array.
-use binary search tree for faster search
+/*Question: find the minimuim value in rotated sorted array
+Ans: 1. binary searching tree
+2. be aware condition if mid==start
+3. be aware condition start > end
 */
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int start = 0, end = nums.size() - 1, mid = nums.size()/2, ans = nums[0];
-        while(mid > start){
-            if(nums[mid] > nums[start]){
-                start = mid;
-                mid = (start + end) / 2;
-                if(start == mid && mid < end) mid = mid + 1;
-            }
-            else{
-                ans = nums[mid];
+        int start = 0, end = nums.size() - 1, mid, ans = nums[0];
+        while(start <= end){
+            mid = (start + end) / 2;
+            if(nums[mid] >= nums[start])
+                if(start == mid && mid <= end) start += 1;
+                else start = mid;
+            else
                 end = mid;
-                mid = (start + end) / 2;
-            }
+            ans = min(ans, nums[mid]);
         }
         return ans;
-
     }
 };
 
 // class Solution {
 // public:
 //     int findMin(vector<int>& nums) {
-//         sort(nums.begin(), nums.end());
-//         return nums[0];
-//     }
-// };
-
-// class Solution {
-// public:
-//     int findMin(vector<int>& nums) {
-//         int ans, num;
-//         ans = num = nums[0];
-//         for(int i=1; i<nums.size(); i++){
-//             if(num < nums[i]) num = nums[i];
-//             else {
-//                 ans = nums[i];
-//                 break;
+//         int start = 0, end = nums.size() - 1, mid = nums.size()/2, ans = nums[0];
+//         while(mid > start){
+//             if(nums[mid] > nums[start]){
+//                 start = mid;
+//                 mid = (start + end) / 2;
+//                 if(start == mid && mid < end) mid = mid + 1;
+//             }
+//             else{
+//                 ans = nums[mid];
+//                 end = mid;
+//                 mid = (start + end) / 2;
 //             }
 //         }
 //         return ans;
+
 //     }
 // };

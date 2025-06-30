@@ -1,0 +1,16 @@
+/*H-index mean how many paper have how many citations
+1. make reverse vector.
+2. count how many paper have citation which greater than count.
+*/
+class Solution {
+public:
+    int hIndex(vector<int>& citations) {
+        if(citations.size()==1) return min(1,citations[0]);
+        sort(citations.rbegin(), citations.rend()); //reverse sort
+        int i;
+        for(i=0; i<citations.size(); i++){
+            if(citations[i]<i+1) return i;
+        }
+        return i;
+    }
+};

@@ -1,0 +1,24 @@
+/* Question create a vector which neighbour need to be larger if ratings neighbour larger
+1. 2 direction loop
+2. i+1>i and i-1>i
+3. sum all the element together
+*/
+
+class Solution {
+public:
+    int candy(vector<int>& ratings) {
+        int size = ratings.size();
+        vector <int> vec(size, 1);
+        for(int i=0; i<size-1; i++){
+            if(ratings[i+1]>ratings[i]) vec[i+1] = max(vec[i+1], vec[i]+1);
+        }
+        
+        for(int i=size-1; i>0; i--){
+            if(ratings[i-1]>ratings[i]) vec[i-1] = max(vec[i-1], vec[i]+1);
+        }
+
+        int sum = 0;
+        for(auto i:vec) sum+=i;
+        return sum;
+    }
+};

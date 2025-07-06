@@ -1,0 +1,19 @@
+/* count the length of last word
+1. justify the last string every char see if it is char
+2. count the char if it is
+*/
+class Solution {
+public:
+    int lengthOfLastWord(string s) {
+        int ans=0;
+        int size = s.size()-1;
+        while(s[size]==' ') size--;
+        for(int i=size; i>=0; i--){
+            if((s[i]>= 'A' && s[i] <='Z') || (s[i] >='a' && s[i] <= 'z')){
+                ans++;
+            }
+            else break;
+        }
+        return ans;
+    }
+};

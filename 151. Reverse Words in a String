@@ -1,0 +1,28 @@
+/*Question: reverse WORDS and erase redundancy space
+1. erase space
+2. save word
+3. re-organize the word in reverse order 
+*/
+class Solution {
+public:
+    string reverseWords(string s) {
+        int i=0, j=0, size = s.size();
+        vector<string> words;
+        while(i<size){
+            while(i<size && s[i]==' ') i++;  //count space idx i
+
+            j=i;
+            while(j<size && s[j]!=' ') j++; //count word idx j
+
+            if(i<j) words.push_back(s.substr(i, j-i)); //save word to vector
+            i=j;
+        }
+
+        string ans;
+        for(int k=words.size()-1; k>=0; k--){ //put the words together
+            if(k<words.size()-1) ans += ' ';
+            ans += words[k];
+        }
+        return ans;
+    }
+};

@@ -1,0 +1,30 @@
+/* find the 1st substr location at haystack
+1. 2 loop: 1st loop go through haystack, 2nd loop to compare needle
+2. create idx to compare one by one
+3. return the start position
+*/
+class Solution {
+public:
+    int strStr(string haystack, string needle) {
+        
+        int idx=0, size=needle.size();
+        for(int i=0; i<haystack.size(); i++){
+            idx=0;
+            while(idx<needle.size() && haystack[i+idx]==needle[idx]) idx++;
+            if(idx==size) return i;
+        }
+        return -1;
+    }
+};
+
+// class Solution {
+// public:
+//     int strStr(string haystack, string needle) {
+//         int size=needle.size(), hsize = haystack.size();
+//         if(hsize<size) return -1;
+//         for(int i=0; i<=hsize-size; i++){
+//             if(haystack.substr(i, size)==needle) return i;
+//         }
+//         return -1;
+//     }
+// };

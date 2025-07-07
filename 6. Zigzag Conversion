@@ -1,0 +1,52 @@
+/*Question: place the letter as below zigzag order and read in row
+|  /
+| /|
+|/ |
+1. use idx to change row (e.g.: from 1-3)
+2. use godown to change direction (e.g.: from 3-1)
+3. add all string together
+*/
+class Solution {
+public:
+    string convert(string s, int numRows) {
+        if(numRows==1 || s.size() <=numRows) return s;
+        vector<string> row(numRows);
+        int curRow = 0;
+        bool godown = 0; //turn to true at first loop as curRow==0
+        for(char c:s){
+            row[curRow] += c;
+            if(curRow==0 || curRow==numRows-1) godown = !godown; //1st loop turn to true
+            curRow += godown? 1: -1; //godown or not
+        }
+
+        string ans; //add all string together
+        for(auto &r: row){
+            ans += r;
+        }
+        return ans;
+    }
+};
+
+// class Solution {
+// public:
+//     string convert(string s, int numRows) {
+//         vector<string> row(numRows);
+//         for(int i=0, j=0; i<s.size(); i++,j++){
+//             if(j>=numRows){
+//                 for(int k=numRows-2; k>0 && i<s.size(); k--){
+//                     row[k] +=s[i];
+//                     if(i<s.size()) i++;
+//                     else break;
+//                 }
+//                 j=0;
+//             } 
+//             if(i<s.size()) row[j] += s[i];
+//             else break;
+//         }
+//         string ans;
+//         for(int k=0; k<row.size(); k++){
+//             ans+=row[k];
+//         }
+//         return ans;
+//     }
+// };

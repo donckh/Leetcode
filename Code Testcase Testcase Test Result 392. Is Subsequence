@@ -1,0 +1,18 @@
+/* Question: check whether s is t subsequence
+1. initial j as s idx
+2. check if s[j]==t[i]
+3. return false if no true return
+*/
+
+class Solution {
+public:
+    bool isSubsequence(string s, string t) {
+        if(t=="" && s=="") return true;
+        int j=0;
+        for(int i=0; i<t.size(); i++){
+            if(s[j]==t[i]) j++;
+            if(j==s.size()) return true;
+        }
+        return false;
+    }
+};

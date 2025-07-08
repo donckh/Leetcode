@@ -1,0 +1,47 @@
+/* Question: given words and width, rearrange all words and add up extra space
+1. count the max words on every line
+2. count space
+3. fill up space
+4. store line and return result
+*/
+
+class Solution {
+public:
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        int lineStart = 0, lineEnd=0, spaceSlot, lineLen = 0;
+        vector<string> result;
+        while(lineStart<words.size()){
+            //first word initial
+            lineLen = words[lineStart].size();
+            lineEnd  = lineStart + 1;
+            while(lineEnd <words.size() && lineLen + 1 + words[lineEnd].size()<=maxWidth){
+                lineLen += 1 + words[lineEnd].size(); //count line len
+                lineEnd++;  //count words
+            }
+
+            int spaceSlot = lineEnd - lineStart - 1; //space = words -1;
+            string line;
+            if(spaceSlot == 0 || lineEnd==words.size()){
+                line += words[lineStart];
+                for(int k=lineStart+1; k<lineEnd; k++){
+                    line += " " + words[k];
+                }
+                line += string(maxWidth - line.size(), ' ');
+            }
+            else{
+                int totalSpace=maxWidth, extraSpace, spaces;
+                for(int k=lineStart; k<lineEnd; k++) totalSpace -= words[k].size();
+                spaces = totalSpace / spaceSlot; //count how many space in each space
+                extraSpace = totalSpace % spaceSlot;
+
+                line +=words[lineStart];
+                for(int k=lineStart+1; k<lineEnd; k++){
+                    line += string(spaces + (extraSpace-- > 0 ? 1: 0), ' ') + words[k];  // +1 extra space only
+                }
+            }
+            result.push_back(line);
+            lineStart = lineEnd;
+        }
+        return result;
+    }
+};

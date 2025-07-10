@@ -27,3 +27,36 @@ public:
         return ans;
     }
 };
+
+/* Question: find 3sum equal to zero without duplicate
+// 1. create 2 loop: 1 for start, another for the rest
+// 2. prevent duplicate loop
+// 3. check if sum equal to 0 and push back
+// */
+
+// class Solution {
+// public:
+//     vector<vector<int>> threeSum(vector<int>& nums) {
+//         int start=0, mid, end;
+//         vector<vector<int>> result;
+//         sort(nums.begin(), nums.end());
+//         for(start = 0; start<nums.size()-2; start++){
+//             if(start>0 && nums[start]==nums[start-1]) continue;
+//             mid = start+1;
+//             end = nums.size()-1;
+//             while(mid<end){
+//                 int sum = nums[start] + nums[mid] + nums[end];
+//                 if(sum==0){
+//                     result.push_back({nums[start], nums[mid], nums[end]});
+//                     while(mid<end && nums[mid]==nums[mid+1]) mid++;
+//                     while(mid<end && nums[end]==nums[end-1]) end--;
+//                     mid++;
+//                     end--;
+//                 } 
+//                 else if(sum < 0) mid++;
+//                 else end--;
+//             }
+//         }
+//         return result;
+//     }
+// };

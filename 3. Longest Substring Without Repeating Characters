@@ -13,3 +13,27 @@ public:
         return substring;
     }
 };
+
+// /*Question: find the max length of substring without repeating char
+// 1. go through string
+// 2. save every char idx
+// 3. if found repeat, update char idx
+// 4. store every max len and compare
+// */
+
+// class Solution {
+// public:
+//     int lengthOfLongestSubstring(string s) {
+//         int maxLen=0;
+//         unordered_map <char, int> umap;
+//         for(int start = 0, end = 0; end<s.size(); end++){
+//             char c = s[end];
+//             if(umap.find(c)!=umap.end() && umap[c]>=start) //if found repeat
+//                 start = umap[c]+1; //start to count from repeat char
+
+//             umap[c] = end; //update char idx
+//             maxLen = max(maxLen, end-start+1);
+//         }
+//         return maxLen;
+//     }
+// };

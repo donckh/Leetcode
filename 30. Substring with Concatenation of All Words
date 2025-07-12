@@ -1,0 +1,52 @@
+/* Question: find the idx of concatenated strings in any orders
+1. initial wordMap
+2. store seen word if valid
+3. check the seen word if exceed number of word
+4. slide the window to find the correct num of word
+5. store the idx if found
+6. reset the seen word if not valid
+*/
+
+class Solution {
+public:
+    vector<int> findSubstring(string s, vector<string>& words) {
+        vector<int> result;
+        if(s.size()==0 || words.size()==0) return result;
+
+        int wordLen = words[0].size();
+        int wordNum = words.size();
+        int wordTotal = wordLen * wordNum;
+        int strLen = s.size();
+
+        unordered_map <string, int> wordMap;
+        for(auto i: words) wordMap[i]++; //use to compare
+
+        for(int i=0; i<wordLen; i++){ //loop only wordLen as j will do the rest
+            unordered_map <string, int> seen(wordNum);  //initial seen word
+            int start = i, count = 0; 
+
+            for(int j=i; j<=strLen-wordLen; j+=wordLen){ // check the rest of word
+                string word = s.substr(j, wordLen);
+                if(wordMap.count(word)){  // if word found
+                    seen[word]++;  //count in seen[word]
+                    count++;  //count num of total word
+
+                    while(seen[word] > wordMap[word]){ //if seen word > 1, slide window
+                        string beginWord = s.substr(start, wordLen);
+                        seen[beginWord]--;
+                        count--;
+                        start += wordLen;
+                    }
+                    if(count==wordNum) result.push_back(start); //if num of word is match
+                }
+                else{
+                    seen.clear(); //reset seen word if not found
+                    count = 0;
+                    start = j + wordLen; //reset start for next loop
+                }
+            }
+        }
+
+        return result;
+    }
+};

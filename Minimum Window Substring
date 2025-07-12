@@ -1,0 +1,38 @@
+/*Question: find the minimum substring t in string s
+1. use 2 umap: 1 for reference, another for record char number
+2. count every c in t
+3. if count == reference umap then record len
+*/
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int len = INT_MAX, count = 0, idx = 0;
+        unordered_map <char, int> umap, window;
+        for(auto c: t) umap[c]++;
+
+        for(int start = 0, end = 0; end < s.size(); end++){
+            char c = s[end];
+            if(umap.count(c)){  //check if char in t
+                window[c]++; //count the number of char
+                if(window[c]==umap[c]) count++; //if only 1 char count 1
+            }
+
+            while(count==umap.size()){  //check if count include all char in t
+                if(end-start+1<len){  //if end-start<len, save it
+                    len = end-start+1;
+                    idx = start;
+                }
+
+                char d = s[start];
+                start++;
+                if(umap.count(d)){
+                    if(umap[d]==window[d]) count--;  //count-- as d is remove by start++
+                    window[d]--;
+                }
+            }
+
+        }
+        return len==INT_MAX? "" : s.substr(idx, len);
+    }
+};

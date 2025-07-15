@@ -1,0 +1,48 @@
+/* Question: find the next status according to the rule:
+1. if live: 
+    1) < 2 neighbor live --> dies
+    2) < 4 neighbor live --> live
+    3) >= 4 neighbor live --> dies
+2. if dead, 3 neighbor live --> live
+
+3. create a matrix to save all neighbor status
+4. add rule to update the board
+*/
+class Solution {
+public:
+    void gameOfLife(vector<vector<int>>& board) {
+        int row = board.size()-1, col = board[0].size()-1;
+        vector<vector<int>> ones(row+1, vector<int>(col+1));
+        
+        for(int r=0; r<=row; r++){
+            for(int c=0; c<=col; c++){
+                if(board[r][c]==1){
+                    if(r-1>=0){
+                        if(c-1>=0) ones[r-1][c-1]++;
+                        ones[r-1][c]++;
+                        if(c+1<=col) ones[r-1][c+1]++;
+                    } 
+                    if(c-1>=0) ones[r][c-1]++;
+                    if(c+1<=col) ones[r][c+1]++;
+                    if(r+1<=row){
+                        if(c-1>=0) ones[r+1][c-1]++;
+                        ones[r+1][c]++;
+                        if(c+1<=col) ones[r+1][c+1]++;
+                    } 
+                }
+                
+            }
+        }
+        for(int r=0; r<=row; r++){
+            for(int c=0; c<=col; c++){
+                if(board[r][c]==1){
+                    if(ones[r][c]<2) board[r][c] = 0;
+                    else if(ones[r][c]<4) board[r][c] = 1;
+                    else board[r][c] = 0;
+                }
+                else if(ones[r][c] == 3 && board[r][c]==0) board[r][c] = 1;
+            }
+        }
+
+    }
+};

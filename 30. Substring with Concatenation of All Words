@@ -50,3 +50,27 @@ public:
         return result;
     }
 };
+
+//class Solution {
+// public:
+//     string minWindow(string s, string t) {
+//         int idx = 0, len = INT_MAX, count = t.size();
+//         int umap[128] = {0}; //int array for english only
+//         for(auto i: t) umap[i]++;
+//         for(int start = 0, end = 0; end < s.size(); end++){
+//             char c = s[end];
+//             if(umap[c]>0) count--; //if match t char count--
+//             umap[c]--;
+//             while(count==0){    //if all match, count==0
+//                 if(end - start + 1 < len){ //store len and idx
+//                     len = end - start + 1;
+//                     idx = start;
+//                 }
+//                 umap[s[start]]++;  //slide window
+//                 if(umap[s[start]]>0) count++;
+//                 start++;
+//             }
+//         }
+//         return len == INT_MAX ? "" : s.substr(idx, len);
+//     }
+// };

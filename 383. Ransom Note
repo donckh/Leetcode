@@ -1,0 +1,18 @@
+/*Question: check if magazine char can combine as ransomNote
+1. create umap or int array to count all char from magazine
+2. minus char from magazine if find in ransomNote
+3. return false if count<0
+4. return true after
+*/
+class Solution {
+public:
+    bool canConstruct(string ransomNote, string magazine) {
+        int cnt[128];
+        for(char i: magazine) cnt[i-'a']++;
+        for(char i: ransomNote){
+            cnt[i-'a']--;
+            if(cnt[i-'a']<0) return false;
+        }
+        return true;
+    }
+};

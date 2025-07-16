@@ -1,0 +1,38 @@
+/* Question: check the pattern of char and word are match or not
+1. store each of words as vector
+2. compare the size are identy or not
+3. if yes, map the char and word each other
+4. return false if any mismatch
+5. return true if all match
+*/
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        unordered_map <char,string> pmap;
+        unordered_map <string,char> smap;
+        vector<string> words;
+        
+        // for(int start=0, end=0; end<s.size(); end++){
+        //     while(end < s.size() && s[end] !=' ') end++;
+        //     string w = s.substr(start, end-start);
+        //     start = end+1;
+        //     words.push_back(w);
+        // }
+        istringstream ss(s);
+        string w;
+        while(ss >> w){
+            words.push_back(w);
+        }
+        
+        if(pattern.size()!=words.size()) return false;
+        for(int i=0; i<pattern.size(); i++){
+            char c = pattern[i];
+            string w = words[i];
+            if(pmap.count(c) && pmap[c]!=w) return false;
+            if(smap.count(w) && smap[w]!=c) return false;
+            pmap[c] = w;
+            smap[w] = c;
+        }
+        return true;
+    }
+};

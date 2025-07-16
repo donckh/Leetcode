@@ -1,0 +1,21 @@
+/*Question: check s and t are the same pattern
+1. create 2 map to store s and t corresponding char map
+2. check if map equal to each other
+3. store char
+4. return true
+*/
+
+class Solution {
+public:
+    bool isIsomorphic(string s, string t) {
+        unordered_map <char, char> smap, tmap;
+        for(int i=0; i<s.size(); i++){
+            char c = s[i], d = t[i];
+            if(smap.count(c) && smap[c]!=d) return false;
+            if(tmap.count(d) && tmap[d]!=c) return false;
+            smap[c] = d;
+            tmap[d] = c;
+        }
+        return true;
+    }
+};

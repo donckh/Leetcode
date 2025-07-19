@@ -1,0 +1,32 @@
+/* Question: calculate the result use reverse polish notation
+1. check if tokens is operator
+2. calculate according to operator
+3. return result
+*/
+class Solution {
+public:
+    bool isOperator(string s) {
+        return s == "+" || s == "-" || s == "*" || s == "/";
+    }
+
+    int evalRPN(vector<string>& tokens) {
+        stack<int> stk;
+
+        for (int i = 0; i < tokens.size(); i++) {
+            string s = tokens[i];
+            if (isOperator(s)) {
+                int b = stk.top(); stk.pop();  // Second operand
+                int a = stk.top(); stk.pop();  // First operand
+
+                if (s == "+") stk.push(a + b);
+                else if (s == "-") stk.push(a - b);
+                else if (s == "*") stk.push(a * b);
+                else if (s == "/") stk.push(a / b); // Integer division
+            } else {
+                stk.push(stoi(s)); // Convert string to int
+            }
+        }
+
+        return stk.top(); // Final result
+    }
+};

@@ -1,0 +1,45 @@
+/*Question: to reverse the linked list from left to right
+1. use 4 link list:
+    1) reverse: for return
+    2) previous: to change previous->next
+    3) current: to skip next node, current -> next to current->next->next;
+    4) next: to get the next node for operation
+2. current->next = next -> next //current point to nextnext
+3. next->next = previous -> next //next point to current
+4. previious->next = next //previous point to next
+*/
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        if(left==right) return head;
+        ListNode *rev = new ListNode(0);
+        rev -> next = head;
+        ListNode *pre = rev;
+        int cnt = 1;
+        while(cnt<left){
+            pre = pre -> next;
+            cnt++;
+        } 
+
+        ListNode *cur = pre -> next;
+        while(cnt<right){
+            ListNode *nxt = cur->next;// 1st: 3, 2nd: 4
+            cur->next = nxt -> next; // 2nd: 2 at 3 location
+            nxt->next = pre -> next; // change nxt next
+            pre->next = nxt;  //move to left location
+            cnt++;
+        }
+        return rev->next;
+    }
+};

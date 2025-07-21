@@ -1,0 +1,37 @@
+/*Question: remove all duplicate node
+1. create 2 list node
+    1) dup to return
+    2) prev to connect next node
+2. use head->next to check val duplicate or not
+3. use prev to connect head->next
+4. return dup->next
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+        ListNode* dup = new ListNode(0, head);
+        ListNode* prev = dup;
+
+        while(head){
+            if(head->next!=NULL && head->val == head->next->val){
+                while(head->next!=NULL && head->val == head->next->val){
+                    head = head->next;
+                }
+                prev->next = head->next;
+            }
+            else prev = prev->next;
+            head = head ->next;
+        }
+        return dup->next;
+    }
+};

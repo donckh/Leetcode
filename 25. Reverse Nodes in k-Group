@@ -1,0 +1,46 @@
+/*Question: resverse k-node repeatly in the whole link list
+1. use i and listnode (check) to verify the listnode remain enough k or not
+2. start to reverse
+    1) next = cur.next
+    2) cur.next = next.next
+    3) pre.next = cur.next
+3. update start = cur
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* rev = new ListNode(0);
+        rev->next = head;
+        ListNode* start = rev;
+        
+        while(true){
+            ListNode* check = start;
+            int i;
+            for(i=0; i<k && check->next !=NULL; i++){
+                check = check->next;
+            }
+            if(i<k) break;
+
+            ListNode* cur = start->next;
+            ListNode* pre = start;
+            for(i=1; i<k; i++){
+                ListNode* nxt = cur->next;
+                cur->next = nxt->next;
+                nxt->next = pre->next;
+                pre->next = nxt;
+            }
+            start = cur;
+        }
+        return rev->next;
+    }
+};

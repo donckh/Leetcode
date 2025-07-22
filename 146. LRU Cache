@@ -1,3 +1,15 @@
+/* Question: build a data structure to get, put data in O(1), less recently use data will be erase if over capacity.
+1. buiild a pair list, which can be insert, erase, exchange data in O(1)
+2. use umap to check key exist or not
+3. do list operation:
+    get:
+    1)if exist return and move key to the begin
+    2) return -1 if not
+    put:
+    1) if exist key, update value to move to begin
+    2) if oversize, remove the last element from the list and add the new one in begining
+*/
+
 //Time Complexity: O(n), Space Complexity: O(n)
 class LRUCache {
 public:

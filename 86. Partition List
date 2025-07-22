@@ -1,0 +1,39 @@
+/* Question: separate node by x, <x: gather in the left in sequence
+1. create 2 listnode object and pointer
+    1) object for connect 2 listnode and return
+    2) pointer to seperate 2 listnode by condition
+2. gather listnode at before if <x, otherwise at after
+3. connect before and after node
+4. return result
+*/
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* partition(ListNode* head, int x) {
+        ListNode beforeHead(0), afterHead(0); //object for return
+        ListNode* before = &beforeHead, *after = &afterHead;
+        while(head!=nullptr){
+            if(head->val < x){
+                before->next = head;
+                before = before->next;
+            }
+            else{
+                after->next = head;
+                after = after->next;
+            }
+            head = head->next;
+        }
+        after -> next = nullptr;
+        before -> next = afterHead.next; //object next
+        return beforeHead.next;
+    }
+};

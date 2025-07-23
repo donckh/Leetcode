@@ -1,4 +1,14 @@
 // use 2 if return false is faster than 1.
+/*Question: to check if tree is symmetric(mirror)
+1. check root tree is null or not
+2. split root to left and right
+3. build a recursive function to compare left and right
+    1)if both nullptr return true
+    2)if either one nullptr return fasle
+    3)compare the val check if they are equal
+    4)return left and right in recursive
+*/
+
 class Solution {
 public:
     bool mirror(TreeNode *leftNode, TreeNode *rightNode){

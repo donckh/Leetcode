@@ -1,3 +1,33 @@
+/* Question: build a BST according to preorder and inorder tree
+1. mark the inorder val and it's index as umap
+2. build function for bst
+    1) if index of inorder > root index, return null
+    2) build a new root from preorder (&index)
+    3) update a new root for next tree node(inEnd)
+*/
+//Time Complexity: O(n), Space Complexity: O(n)
+//sol: take from preorder and limit by inorder to build tree
+class Solution {
+public:
+    unordered_map<int, int> umap;
+    TreeNode* bst(vector<int> &preorder, vector<int>& inorder, int &index, int start, int end){
+        if(start>end) return NULL;  //means preoder reach the end
+        TreeNode* root = new TreeNode(preorder[index]);
+        index++;
+        int limit = umap[root->val];  //index of inorder for this root, use as limit of preorder Tree
+        root->left = bst(preorder, inorder, index, start, limit-1);
+        root->right = bst(preorder, inorder, index, limit+1, end);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        int index=0, start=0, end=preorder.size()-1;
+        for(int i=0; i<inorder.size(); i++){
+            umap[inorder[i]]=i;  //index of inorder
+        }
+        return bst(preorder, inorder, index, start, end);
+    }
+};
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -48,35 +78,3 @@
 //         return cur;
 //     }
 // };
-
-
-/* Question: build a BST according to preorder and inorder tree
-1. mark the inorder val and it's index as umap
-2. build function for bst
-    1) if index of inorder > root index, return null
-    2) build a new root from preorder (&index)
-    3) update a new root for next tree node(inEnd)
-*/
-//Time Complexity: O(n), Space Complexity: O(n)
-//sol: take from preorder and limit by inorder to build tree
-class Solution {
-public:
-    unordered_map<int, int> umap;
-    TreeNode* bst(vector<int> &preorder, vector<int>& inorder, int &index, int start, int end){
-        if(start>end) return NULL;  //means preoder reach the end
-        TreeNode* root = new TreeNode(preorder[index]);
-        index++;
-        int limit = umap[root->val];  //index of inorder for this root, use as limit of preorder Tree
-        root->left = bst(preorder, inorder, index, start, limit-1);
-        root->right = bst(preorder, inorder, index, limit+1, end);
-        return root;
-    }
-    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        int index=0, start=0, end=preorder.size()-1;
-        for(int i=0; i<inorder.size(); i++){
-            umap[inorder[i]]=i;  //index of inorder
-        }
-        return bst(preorder, inorder, index, start, end);
-    }
-};
-

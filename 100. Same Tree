@@ -1,0 +1,37 @@
+/*Question: Compare two tree check if they are identical
+1. build a function to read the tree until the end;
+2. check if node1 and node2 are nullptr;
+    1)if both nullptr return true
+    2)both exist compare val are equal or not, if no return false
+    3)recursive left and right
+3. return fasle if either one tree node is nullptr;
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    bool compare(TreeNode* node1, TreeNode* node2){
+
+        if(node1==nullptr && node2==nullptr) return true;
+        else if(node1!=nullptr && node2!=nullptr){
+            if(node1->val!=node2->val) return false;
+            bool cleft = compare(node1->left, node2->left);
+            bool cright = compare(node1->right, node2->right);
+            return cleft && cright;
+        }
+        else return false;
+    }
+
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+        return compare(p,q);
+    }
+};

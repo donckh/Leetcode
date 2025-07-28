@@ -1,3 +1,11 @@
+/* Question: build a vertor to represent every level of tree by zigzag direction
+1. go through every tree node with queue
+2. push every node value to vector
+3. check direction need to reverse or not
+4. push to result
+
+*/
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -9,6 +17,32 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> result;
+        if(!root) return result;
+        vector<int> level;
+        queue<TreeNode*> q;
+        q.push(root);
+        bool dir = false;
+        while(!q.empty()){
+            int size = q.size();
+            level.clear();
+            for(int i=0; i<size; i++){
+                TreeNode* curr = q.front(); q.pop();
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right);
+                level.push_back(curr->val);
+            }
+            if(dir) reverse(level.begin(), level.end());
+            result.push_back(level);
+            dir = !dir;
+        }
+        return result;
+    }
+};
+
 //Time Complexity: O(n), Space Complexity: O(n)
 //BFS (refer to 102. Binary Tree Level Order Traversal)
 class Solution {

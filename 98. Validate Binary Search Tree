@@ -1,3 +1,37 @@
+/* Question: check the given tree is valid BST
+1. check tree by inorder sequence
+2. if prev >= curr root, return false
+3. recursive all the node
+4. return bool
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    TreeNode* prev = nullptr;
+public:
+    bool bst(TreeNode* root){
+        if(!root) return true;
+        bool left = bst(root->left);
+        if(prev && prev->val >= root->val) return false;
+        prev = root;
+        bool right = bst(root->right);
+        return left && right;
+    }
+
+    bool isValidBST(TreeNode* root) {
+        return bst(root);
+    }
+};
+
 /**
  * Definition for a binary tree node.
  * struct TreeNode {

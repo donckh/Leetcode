@@ -1,0 +1,33 @@
+/*Question: find the min absolute difference in BST
+1. build a function go through tree node inorder (tree node increase sequence)
+2. calculate the root value and previous root difference
+3. get the min absolute value
+*/
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+    int minDiff = INT_MAX;
+    TreeNode* prev = nullptr;
+public:
+    void getNode(TreeNode* root){
+        if(!root) return;
+        getMinimumDifference(root->left);
+        if(prev) minDiff = min(minDiff, root->val - prev->val);
+        prev=root;
+        getMinimumDifference(root->right);
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        getNode(root);
+        return minDiff;
+    }
+};

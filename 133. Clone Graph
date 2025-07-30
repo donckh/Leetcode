@@ -1,0 +1,42 @@
+/*Question: clone a graph which contain (val, neighbor(vector<nodes>))
+1. go through nodes by dfs
+2. check if exist in umap<original_node, clone_node>
+3. create node if not exist
+4. push back neighbor node and dfs
+5. return clone
+*/
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    vector<Node*> neighbors;
+    Node() {
+        val = 0;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val) {
+        val = _val;
+        neighbors = vector<Node*>();
+    }
+    Node(int _val, vector<Node*> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+};
+*/
+
+class Solution {
+    unordered_map<Node*, Node*> umap;
+public:
+    Node* cloneGraph(Node* node) {
+        if(!node) return nullptr;
+        if(umap.count(node)) return umap[node];
+        Node* copy = new Node(node->val);
+        umap[node] = copy;
+        for(Node* n: node->neighbors){
+            copy->neighbors.push_back(cloneGraph(n));
+        }
+        return copy;
+    }
+};

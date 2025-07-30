@@ -1,30 +1,85 @@
-//Time Complexity: O(n), Space Complexity: O(1)
-// Sol: check edge 'O' and it's neighbour, remain 'O'. Others turn to 'X'.
+/*Question: change all the surrounding 'O' -> 'X' if they are not edge.
+1. go through the edge and its surround connected 'O'
+2. change edge 'O' to 'V'
+3. go through the remaining 'O' and change to 'X'
+3. change back all 'V' to 'O'
+
+*/
+
 class Solution {
 public:
-    void dfs(vector<vector<char>>& board, int i, int j, int m, int n){
-        if(i<0 || i>=m || j<0 || j>=n) return;
-        if(board[i][j]=='X' || board[i][j]=='E') return;
-        board[i][j] = 'E';  //edge O or neighbour of edge
-        dfs(board, i-1, j, m, n);
-        dfs(board, i+1, j, m, n);
-        dfs(board, i, j-1, m, n);
-        dfs(board, i, j+1, m, n);
+    void dfs(vector<vector<char>> &board, int r, int c, bool edge){
+        int bottom = board.size();
+        int right = board[0].size(); 
+
+        if(c<0 || r<0 || c>=right || r>=bottom || board[r][c]!='O') return;
+        if(edge) board[r][c] = 'V';
+        else board[r][c] = 'X';
+
+        dfs(board, r, c-1, edge);
+        dfs(board, r-1, c, edge);
+        dfs(board, r, c+1, edge);
+        dfs(board, r+1, c, edge);
     }
+
     void solve(vector<vector<char>>& board) {
-        int m=board.size(), n=board[0].size();
-        // vector<vector<bool>> arr(m, vector<bool>(n, false));
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if((i==0 || i==m-1 || j==0 || j==n-1) && board[i][j]=='O') //check those O at edge
-                  dfs(board, i, j, m, n);  //check neighbour of edge O
+        int bottom = board.size();
+        int right = board[0].size();
+        int r=0, c=0;
+        while(c<right){
+            if(board[0][c]=='O') dfs(board, 0, c, true);
+            if(board[bottom-1][c]=='O') dfs(board, bottom-1, c, true);
+            c++;
+        }
+        while(r<bottom){
+            if(board[r][0]=='O') dfs(board, r, 0, true);
+            if(board[r][right-1]=='O') dfs(board, r, right-1, true);
+            r++;
+        }
+
+        for(int i=0; i<bottom; i++){
+            for(int j=0; j<right; j++){
+                if(board[i][j]=='O') dfs(board, i, j, false);
             }
         }
-        for(int i=0; i<m; i++){
-            for(int j=0; j<n; j++){
-                if(board[i][j]=='O') board[i][j]='X'; //remain O NOT at edge
-                else if(board[i][j]=='E') board[i][j]='O';  // edge O remain O
+
+        for(int i=0; i<bottom; i++){
+            for(int j=0; j<right; j++){
+                if(board[i][j]=='V') board[i][j]='O';
             }
         }
     }
 };
+
+//Time Complexity: O(n), Space Complexity: O(1)
+// // Sol: check edge 'O' and it's neighbour, remain 'O'. Others turn to 'X'.
+// class Solution {
+// public:
+//     void dfs(vector<vector<char>>& board, int i, int j, int m, int n){
+//         if(i<0 || i>=m || j<0 || j>=n) return;
+//         if(board[i][j]=='X' || board[i][j]=='E') return;
+//         board[i][j] = 'E';  //edge O or neighbour of edge
+//         dfs(board, i-1, j, m, n);
+//         dfs(board, i+1, j, m, n);
+//         dfs(board, i, j-1, m, n);
+//         dfs(board, i, j+1, m, n);
+//     }
+//     void solve(vector<vector<char>>& board) {
+//         int m=board.size(), n=board[0].size();
+//         // vector<vector<bool>> arr(m, vector<bool>(n, false));
+//         for(int i=0; i<m; i++){
+//             for(int j=0; j<n; j++){
+//                 if((i==0 || i==m-1 || j==0 || j==n-1) && board[i][j]=='O') //check those O at edge
+//                   dfs(board, i, j, m, n);  //check neighbour of edge O
+//             }
+//         }
+//         for(int i=0; i<m; i++){
+//             for(int j=0; j<n; j++){
+//                 if(board[i][j]=='O') board[i][j]='X'; //remain O NOT at edge
+//                 else if(board[i][j]=='E') board[i][j]='O';  // edge O remain O
+//             }
+//         }
+//     }
+// };
+
+

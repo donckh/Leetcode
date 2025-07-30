@@ -1,0 +1,32 @@
+/* Question: count how many island(consist of '1') exist.
+1. go through every grid
+2. build a function to check if island(1) found
+3. elimate the same island(1) by check the near by index
+*/
+
+class Solution {
+public:
+    void dfs(vector<vector<char>>& grid, int r, int c){
+        int m = grid.size();
+        int n = grid[0].size();
+        if(c<0 || r<0 || r>=m || c >= n || grid[r][c] != '1') return;
+        grid[r][c] = '0';
+        dfs(grid, r-1, c);
+        dfs(grid, r, c-1);
+        dfs(grid, r+1, c);
+        dfs(grid, r, c+1);
+    }
+
+    int numIslands(vector<vector<char>>& grid) {
+        int cnt = 0;
+        for(int r=0; r<grid.size(); r++){
+            for(int c=0; c<grid[0].size(); c++){
+                if(grid[r][c]=='1'){
+                    dfs(grid, r, c);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+};

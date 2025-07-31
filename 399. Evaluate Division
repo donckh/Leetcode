@@ -1,0 +1,48 @@
+/* Question: given equation a/b = val, find the queries x/y = ?
+1. insert all equation (a/b and b/a) to umap<string, vector<pair<string, value>>>
+2. check the queries start from x
+3. build a dfs to check query and visited unordered_set to check if x is visited
+    1) insert current string 
+    2) if neighbor not visited yet -> recursive (visit it's neighbors)
+    3) if result == -1.0 or cannot find match x return -1.0
+4. push back the result to vector for return
+*/
+
+
+class Solution {
+    unordered_map<string, vector<pair<string, double>>> graph;
+public:
+    double dfs(string curr, string target, double value, unordered_set<string> visited){
+        if(curr==target) return value;
+        visited.insert(curr);
+        for(auto& [neighbor, val]: graph[curr]){
+            if(!visited.count(neighbor)){
+                double res = dfs(neighbor, target, value * val, visited);
+                if(res!=-1.0) return res;
+            }
+        }
+        return -1.0;
+    }
+
+    vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
+        for(int i=0; i<equations.size(); i++){
+            string a = equations[i][0];
+            string b = equations[i][1];
+            double val = values[i];
+            graph[a].emplace_back(b, val);
+            graph[b].emplace_back(a, 1.0/val);
+        }
+        
+        vector<double> result;
+        for(auto& q: queries){
+            string a = q[0];
+            string b = q[1];
+            if(!graph.count(a) || !graph.count(b)) result.push_back(-1.0);
+            else{
+                unordered_set<string> visited;
+                result.emplace_back(dfs(a, b, 1, visited));
+            }
+        }
+        return result;
+    }
+};

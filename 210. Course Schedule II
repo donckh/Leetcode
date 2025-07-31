@@ -1,0 +1,37 @@
+/* Question: find the course sequence you have to take
+1. build a graph of courses by vector<vector<int>>
+2. go through course from 0 to the end
+3. check if there is any loop of course
+4. push back the course from the end in order to push the course first then prerequisites
+5. reverse for return the correct order
+*/
+
+class Solution {
+public:
+    bool dfs(vector<int>& result, vector<int>& visited, int course, vector<vector<int>>& courses){
+        if(visited[course]==1) return false;
+        if(visited[course]==2) return true;
+        visited[course]=1;
+        
+        for(int c: courses[course]){
+            if(!dfs(result, visited, c, courses)) return false;
+        }
+        visited[course]=2;
+        result.push_back(course); //push course, then prerequisites
+        return true;
+    }
+
+    vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> courses(numCourses);
+        for(auto& p: prerequisites){
+            courses[p[1]].push_back(p[0]); // prerequisites - course
+        }
+        vector<int> result;
+        vector<int> visited(numCourses,0);
+        for(int i=0; i<numCourses; i++){
+            if(!dfs(result, visited, i, courses)) return {};
+        }
+        reverse(result.begin(), result.end()); //reverse for output correct order
+        return result;
+    }
+};

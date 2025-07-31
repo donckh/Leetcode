@@ -1,0 +1,34 @@
+/*Question: given num of courses, check if we can finish all courses(including prequisites: no loop of course)
+1. build a graph of course vector<int, int> = <prerequisites, course>
+2. go through numCourse
+    1) check if any loop
+    2) finish return true
+    3) recursive the course (check loop)
+3. return true if no loop found
+*/
+
+class Solution {
+public:
+    bool dfs(int course, vector<vector<int>>& graph, vector<int>& visited){
+        if(visited[course]==1) return false;
+        if(visited[course]==2) return true;
+
+        visited[course]=1;
+        for(int n: graph[course])
+            if(!dfs(n, graph, visited)) return false;
+        visited[course]=2;
+        return true;
+    }
+
+    bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<vector<int>> graph(numCourses);
+        for(auto& p: prerequisites){
+            graph[p[1]].push_back(p[0]);
+        }
+        vector<int> visited(numCourses, 0);
+        for(int i=0; i<numCourses; i++){
+            if(!dfs(i, graph, visited)) return false;
+        }
+        return true;
+    }
+};

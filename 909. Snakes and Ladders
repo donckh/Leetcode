@@ -1,0 +1,47 @@
+/* Question: find the least move to the destinate (n*n)
+1. build a function to convert the step index 
+    1) start from bottom convert to top
+    2) start from 1 convert to start from 0 for row and col purpose
+2. create a queue to save step and move
+3. Start BFS, if queue exist start to dice(1~6)
+4. update next and visited, including ladder and snack
+5. check if reach destination and return
+6. update queue
+7. return -1 if cannot reach
+*/
+
+class Solution {
+public:
+    pair<int, int> getRC(int step, int n){  //convert setp(1-base) to row and col (0-base)
+        int botRow = (step - 1) / n;
+        int botCol = (step - 1) % n;
+        int row = n - 1 - botRow;
+        int col = botRow % 2 == 0 ? botCol : n - 1 - botCol;
+        return {row, col};
+    }
+
+    int snakesAndLadders(vector<vector<int>>& board) {
+        int n = board.size();
+        vector<vector<bool>> visited(n, vector<bool>(n, false));
+        queue<pair<int, int>> q;
+        q.push({1,0});
+        visited[n-1][0] = true;
+        while(!q.empty()){
+            auto [step, cnt] = q.front(); q.pop();
+            for(int i=1; i<=6; i++){ //dice
+                int next = step + i;
+                if(next > n*n) continue;
+                auto[r, c] = getRC(next, n);
+
+                if(visited[r][c]) continue;
+                visited[r][c] = true;
+
+                if(board[r][c]!=-1) next = board[r][c];
+                
+                if(next==n*n) return cnt+1;
+                q.push({next, cnt+1});
+            }
+        }
+        return -1;
+    }
+};

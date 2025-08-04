@@ -1,0 +1,63 @@
+/* Question: build a Trie that can insert, search and check startsWith by words
+1. build a TrieNode
+2. initialize child[26] as dict tree
+3. insert trienode when insert word
+4. serach: check the trienode until the end of word and return true if end
+5. startWith: check the trienode until the end of prefix and return true match
+*/
+class TrieNode{
+public:
+    bool end = false;
+    TrieNode* child[26];
+
+    TrieNode(){
+        end = false;
+        for(int i=0; i<26; i++) child[i] = nullptr;
+    }
+};
+
+class Trie {
+    TrieNode* root;
+public:
+    Trie() {
+        root = new TrieNode();
+    }
+    
+    void insert(string word) {
+        TrieNode* curr = root;
+        for(char c: word){
+            int i = c - 'a';
+            if(!curr->child[i]) curr->child[i] = new TrieNode();
+            curr = curr->child[i];
+        }
+        curr->end = true;
+    }
+    
+    bool search(string word) {
+        TrieNode* curr = root;
+        for(char c: word){
+            int i = c - 'a';
+            if(!curr->child[i]) return false;
+            curr = curr->child[i];
+        }
+        return curr->end;
+    }
+    
+    bool startsWith(string prefix) {
+        TrieNode* curr = root;
+        for(char c: prefix){
+            int i = c - 'a';
+            if(!curr->child[i]) return false;
+            curr = curr->child[i];
+        }
+        return true;
+    }
+};
+
+/**
+ * Your Trie object will be instantiated and called as such:
+ * Trie* obj = new Trie();
+ * obj->insert(word);
+ * bool param_2 = obj->search(word);
+ * bool param_3 = obj->startsWith(prefix);
+ */

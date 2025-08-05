@@ -1,0 +1,55 @@
+/*Question: find all words exist in board
+1. build a struct Trie
+2. build Trie insert function
+3. build a dfs to find all adjacent cell whether exist words
+4. store result if found
+5. input all single cell from board to dfs to search.
+*/
+
+class Solution {
+public:
+    struct Trie{ //simply Trie
+        Trie* child[26] = {};
+        string word = "";
+    };
+
+    void insert(string& words, Trie* root){
+        Trie* curr = root;
+        for(char c: words){
+            int i = c - 'a';
+            if(!curr->child[i]) curr->child[i] = new Trie();
+            curr = curr->child[i];
+        }
+        curr->word = words;
+    }
+
+    void dfs(vector<vector<char>>& board, int i, int j, Trie* curr, vector<string>& res){
+        char c = board[i][j];
+        if(c=='#' ||!curr->child[c-'a']) return;
+        curr = curr->child[c-'a'];
+        if(curr->word!=""){
+            res.push_back(curr->word);
+            curr->word = "";
+        }
+
+        board[i][j] = '#';
+        if(i>0) dfs(board, i-1, j, curr, res);
+        if(j>0) dfs(board, i, j-1, curr, res);
+        if(i+1<board.size()) dfs(board, i+1, j, curr, res);
+        if(j+1<board[0].size()) dfs(board, i, j+1, curr, res);
+        board[i][j] = c;
+    }
+
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        Trie* root = new Trie();
+        for(string w: words) insert(w, root);
+
+        vector<string> res;
+        for(int i=0; i<board.size(); i++){
+            for(int j=0; j<board[0].size(); j++){
+                dfs(board, i, j, root, res);
+            }
+        }
+        return res;
+    }
+};

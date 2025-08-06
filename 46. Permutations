@@ -1,22 +1,60 @@
-//Time Complexity: O(n^2), Space Complexity: O(n)
-//swap every element in loop -> permutations
+/*Question: find all possiblem permutations/combination by given nums
+1. create a visited vector to check whether the digital has been visit
+2. use backtrack to go through all the digit start from i=0
+3. use visited to skip those digit alread visited
+4. push back result if size match
+5. return result
+*/
 class Solution {
-private:
-    void generate(vector<int> vec, int start, int end, vector<vector<int>> &ans){
-        if(start==end){
-            ans.push_back(vec);
+public:
+    vector<vector<int>> res;
+    vector<bool> visited;
+
+    void backtrack(vector<int>& nums, vector<int>& path) {
+        if (path.size() == nums.size()) {
+            res.push_back(path);
             return;
         }
-        for(int i=start; i<end+1; i++){
-            swap(vec[i], vec[start]);  //swap element as base and input to next loop
-            generate(vec, start+1, end, ans);
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (visited[i]) continue; //skip those digits already exist in path
+            visited[i] = true;
+            path.push_back(nums[i]);
+
+            backtrack(nums, path);
+
+            path.pop_back();
+            visited[i] = false;
         }
     }
 
-public:
     vector<vector<int>> permute(vector<int>& nums) {
-        vector<vector<int>> ans;
-        generate(nums, 0, nums.size()-1, ans);
-        return ans;
+        visited.resize(nums.size(), false);
+        vector<int> path;
+        backtrack(nums, path);
+        return res;
     }
 };
+
+//Time Complexity: O(n^2), Space Complexity: O(n)
+// //swap every element in loop -> permutations
+// class Solution {
+// private:
+//     void generate(vector<int> vec, int start, int end, vector<vector<int>> &ans){
+//         if(start==end){
+//             ans.push_back(vec);
+//             return;
+//         }
+//         for(int i=start; i<end+1; i++){
+//             swap(vec[i], vec[start]);  //swap element as base and input to next loop
+//             generate(vec, start+1, end, ans);
+//         }
+//     }
+
+// public:
+//     vector<vector<int>> permute(vector<int>& nums) {
+//         vector<vector<int>> ans;
+//         generate(nums, 0, nums.size()-1, ans);
+//         return ans;
+//     }
+// };

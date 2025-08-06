@@ -1,24 +1,60 @@
-//Time Complexity: O(n^2), Space Complexity: O(n)
+/* Question: list all the possilbe char according to the phone digits
+1. build a map between digits and char
+2. use backtrack to go through all the possible char
+3. push back the char to result
+*/
+
 class Solution {
 public:
+    vector<string> res;
+    unordered_map <char, string> digiChar = {
+        {'2', "abc"}, {'3', "def"}, 
+        {'4', "ghi"}, {'5', "jkl"}, {'6', "mno"}, 
+        {'7', "pqrs"}, {'8', "tuv"}, {'9', "wxyz"}
+    };
+
+    void backtrack(string digits, int idx, string path){
+        if(idx==digits.size()){
+            res.push_back(path);
+            return;
+        }
+        for(char c: digiChar[digits[idx]]){
+            path.push_back(c);
+            backtrack(digits, idx+1, path);
+            path.pop_back();
+        }
+
+    }
+
     vector<string> letterCombinations(string digits) {
         if(digits.empty()) return {};
-        vector<string> ans, temp;
-        vector<string> nums={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-        ans.push_back("");
-        for(int i=0; digits[i]; i++){
-            temp.clear();
-            // for(auto c2: nums[digits[i]-'0']){
-            for(int c2=0; c2<nums[digits[i]-'0'].size(); c2++){ 
-                // for(auto c1: ans){
-                for(int c1=0; c1<ans.size(); c1++){
-                    // temp.push_back(c1+c2);
-                    temp.push_back(ans[c1]+nums[digits[i]-'0'][c2]);
-                }
-            }
-            ans.clear();
-            ans=temp;
-        }
-        return ans;
+        string path;
+        backtrack(digits, 0, path);
+        return res;
     }
 };
+
+//Time Complexity: O(n^2), Space Complexity: O(n)
+// class Solution {
+// public:
+//     vector<string> letterCombinations(string digits) {
+//         if(digits.empty()) return {};
+//         vector<string> ans, temp;
+//         vector<string> nums={"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+//         ans.push_back("");
+//         for(int i=0; digits[i]; i++){
+//             temp.clear();
+//             // for(auto c2: nums[digits[i]-'0']){
+//             for(int c2=0; c2<nums[digits[i]-'0'].size(); c2++){ 
+//                 // for(auto c1: ans){
+//                 for(int c1=0; c1<ans.size(); c1++){
+//                     // temp.push_back(c1+c2);
+//                     temp.push_back(ans[c1]+nums[digits[i]-'0'][c2]);
+//                 }
+//             }
+//             ans.clear();
+//             ans=temp;
+//         }
+//         return ans;
+//     }
+// };

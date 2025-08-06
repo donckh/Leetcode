@@ -1,0 +1,28 @@
+/*Question: find the possible combination of k num, which select from [1,n]
+1. check temp size == k and push to result
+2. use backtrack to go through every digit
+3. return result 
+*/
+class Solution {
+public:
+    void backtrack(vector<vector<int>>& res, vector<int>& temp, int idx, int n, int k){
+        if(temp.size() == k){
+            res.push_back(temp);
+            return;
+        }
+
+        for(int i=idx; i<=n; i++){
+            temp.push_back(i);
+            backtrack(res, temp, i+1, n, k);
+            temp.pop_back();
+        }
+    }
+
+    vector<vector<int>> combine(int n, int k) {
+        if(k==0) return {};
+        vector<vector<int>> res;
+        vector<int> temp;
+        backtrack(res, temp, 1, n, k);
+        return res;
+    }
+};

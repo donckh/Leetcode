@@ -1,0 +1,31 @@
+/* Question: find the combination sum of target
+1. use backtrack
+    1)if sum==target push back path
+    2)if sum> target return
+    3)check whether idx oversize
+    4)contine to push back candidates by backtrack i (repeat candidate is acceptable)
+
+*/
+class Solution {
+public:
+    void backtrack(vector<int>& candidates, int target, int sum, int idx, vector<int>& path, vector<vector<int>>& res){
+        if(sum == target){
+            res.push_back(path);
+            return;
+        }
+        if(sum>target) return;
+        if(idx==candidates.size()) return; //check whether idx oversize
+        for(int i=idx; i<candidates.size(); i++){ //start from idx, avoid repeat path
+            path.push_back(candidates[i]);
+            backtrack(candidates, target, sum+candidates[i], i, path, res);
+            path.pop_back();
+        }
+    }
+
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        vector<vector<int>> res;
+        vector<int> path;
+        backtrack(candidates, target, 0, 0, path, res);
+        return res;
+    }
+};

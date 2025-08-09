@@ -1,20 +1,58 @@
-//Time Complexity: O(n^2), Space Complexity: O(n^2)
+/*Question: generate valid pairs of parentheses according to n
+1. use backtrack:
+    1) separate open and close
+    2) if open<n push->backtrack->pop
+    3) if close<open push->backtrack->pop
+2. return res
+*/
 class Solution {
 public:
-    vector<string> ans;
-    void gp(int left, int right, string s){
-        if(left<0 || right<0) return;
-        if(left==0 && right==0){
-            ans.push_back(s);
+    vector<string> generateParenthesis(int n) {
+        vector<char> parentheses = {'(', ')'};
+        vector<string> res;
+        string path;
+        backtrack(n, 0, 0, path, res);
+        return res;
+    }
+private:
+    void backtrack(int n, int open, int close, string& path, vector<string>& res){
+        if(path.size()==n*2){
+            res.push_back(path);
             return;
         }
-        gp(left-1, right, s+'('); 
-        //1st loop: recursive get all first left parantheses case
-        //2nd loop: recursive get all 2 x left parantheses case, etc.
-        if(right>left) gp(left, right-1, s+')');
-    }
-    vector<string> generateParenthesis(int n) {
-        gp(n, n, "");  //recursive
-        return ans;
+        
+        if(open<n){
+            path.push_back('(');
+            backtrack(n, open+1, close, path, res);
+            path.pop_back();
+        }
+
+        if(close<open){
+            path.push_back(')');
+            backtrack(n, open, close+1, path, res);
+            path.pop_back();
+        }
+
     }
 };
+
+//Time Complexity: O(n^2), Space Complexity: O(n^2)
+// class Solution {
+// public:
+//     vector<string> ans;
+//     void gp(int left, int right, string s){
+//         if(left<0 || right<0) return;
+//         if(left==0 && right==0){
+//             ans.push_back(s);
+//             return;
+//         }
+//         gp(left-1, right, s+'('); 
+//         //1st loop: recursive get all first left parantheses case
+//         //2nd loop: recursive get all 2 x left parantheses case, etc.
+//         if(right>left) gp(left, right-1, s+')');
+//     }
+//     vector<string> generateParenthesis(int n) {
+//         gp(n, n, "");  //recursive
+//         return ans;
+//     }
+// };

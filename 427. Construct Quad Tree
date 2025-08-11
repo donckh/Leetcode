@@ -1,0 +1,80 @@
+/* Question: build a quad tree (bst: left, right to quad tree: topLeft, topRight, bottomLeft, bottomRight)
+1. create a quad tree function
+    1) use grid size as broundary 
+    2) check the value inside broundary whether is the same value
+    3) if same, return a new Quad tree(leaf==true)
+    4) if not, split the tree as 4 child(topLeft, topRight, bottomLeft, bottomRight)
+    5) go to the next recursive
+2. return the quad tree
+*/
+
+/*
+// Definition for a QuadTree node.
+class Node {
+public:
+    bool val;
+    bool isLeaf;
+    Node* topLeft;
+    Node* topRight;
+    Node* bottomLeft;
+    Node* bottomRight;
+    
+    Node() {
+        val = false;
+        isLeaf = false;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = NULL;
+        topRight = NULL;
+        bottomLeft = NULL;
+        bottomRight = NULL;
+    }
+    
+    Node(bool _val, bool _isLeaf, Node* _topLeft, Node* _topRight, Node* _bottomLeft, Node* _bottomRight) {
+        val = _val;
+        isLeaf = _isLeaf;
+        topLeft = _topLeft;
+        topRight = _topRight;
+        bottomLeft = _bottomLeft;
+        bottomRight = _bottomRight;
+    }
+};
+*/
+
+class Solution {
+public:
+    Node* build(vector<vector<int>>& grid, int rowStart, int rowEnd, int colStart, int colEnd){
+        bool same = true;
+        int val = grid[rowStart][colStart];
+        for(int i=rowStart; i<rowEnd; i++){
+            for(int j=colStart; j<colEnd; j++){
+                if(val!=grid[i][j]){
+                    same = false;
+                }
+            }
+            if(!same) break;
+        }
+        if(same) return new Node(val, same);
+        Node* root = new Node(val, same);
+        int mid1 = (rowStart+rowEnd) / 2;
+        int mid2 = (colStart+colEnd) / 2;
+
+        root->topLeft = build(grid, rowStart, mid1, colStart, mid2);
+        root->topRight = build(grid, rowStart, mid1, mid2, colEnd);
+        root->bottomLeft = build(grid, mid1, rowEnd, colStart, mid2);
+        root->bottomRight = build(grid, mid1, rowEnd, mid2, colEnd);
+        return root;
+    }
+
+    Node* construct(vector<vector<int>>& grid){
+        int n = grid.size();
+        return build(grid, 0, n, 0, n);
+    }
+};

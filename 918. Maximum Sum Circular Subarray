@@ -1,0 +1,25 @@
+/*Question: consider given array is cicular array, find the max sum of subarray
+1. use Kadane Algorithm:
+    1) (currSum and maxSum) to find the maxSum
+    2) (currSum and maxSum) to find the minSum
+    3) sum all value as total
+2. if maxSum > 0: max(maxSum, total-minSum), otherwise maxSum
+//total-minSum is maxSum of cicular array
+*/
+
+class Solution {
+public:
+    int maxSubarraySumCircular(vector<int>& nums) {
+        int maxCurr, maxSum, minCurr, minSum, total;
+        maxCurr = maxSum = minCurr = minSum = total = nums[0];
+        for(int i=1; i<nums.size(); i++){
+            maxCurr = max(maxCurr+nums[i], nums[i]);
+            maxSum = max(maxCurr, maxSum);
+
+            minCurr = min(minCurr+nums[i], nums[i]);
+            minSum = min(minCurr, minSum);
+            total += nums[i];
+        }
+        return maxSum > 0 ? max(maxSum, total-minSum) : maxSum;
+    }
+};

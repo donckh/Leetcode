@@ -66,10 +66,10 @@ public:
         int mid1 = (rowStart+rowEnd) / 2;
         int mid2 = (colStart+colEnd) / 2;
 
-        root->topLeft = build(grid, rowStart, mid1, colStart, mid2);
-        root->topRight = build(grid, rowStart, mid1, mid2, colEnd);
-        root->bottomLeft = build(grid, mid1, rowEnd, colStart, mid2);
-        root->bottomRight = build(grid, mid1, rowEnd, mid2, colEnd);
+        root->topLeft = build(grid, rowStart, mid1, colStart, mid2); //[rowS, mid1) × [colS, mid2)
+        root->topRight = build(grid, rowStart, mid1, mid2, colEnd); //[rowS, mid1) × [mid2, colE)
+        root->bottomLeft = build(grid, mid1, rowEnd, colStart, mid2); //[mid1, rowE) × [colS, mid2)
+        root->bottomRight = build(grid, mid1, rowEnd, mid2, colEnd); //[mid1, rowE) × [mid2, colE)
         return root;
     }
 

@@ -1,24 +1,45 @@
-/*Question: find the minimuim value in rotated sorted array
-Ans: 1. binary searching tree
-2. be aware condition if mid==start
-3. be aware condition start > end
+/*Question: find the min val of rotated sorted array
+1. use binary search
+    1)if num[start] < nums[end], no rotate -> return nums[start];
+    2)if(nums[start] < nums[mid]), min val in the right
+    3)otherwise, in the left
+2. return nums[start] when start==end
 */
 class Solution {
 public:
     int findMin(vector<int>& nums) {
-        int start = 0, end = nums.size() - 1, mid, ans = nums[0];
-        while(start <= end){
-            mid = (start + end) / 2;
-            if(nums[mid] >= nums[start])
-                if(start == mid && mid <= end) start += 1;
-                else start = mid;
-            else
-                end = mid;
-            ans = min(ans, nums[mid]);
+        int start = 0, end = nums.size()-1, ans = nums[0];
+        while(start < end){
+            if(nums[start] < nums[end]) return nums[start];
+            int mid = start + (end - start) / 2;
+            if(nums[start] <= nums[mid]) start = mid + 1;
+            else end = mid;
         }
-        return ans;
+        return nums[start];
     }
 };
+
+/*Question: find the minimuim value in rotated sorted array
+// Ans: 1. binary searching tree
+// 2. be aware condition if mid==start
+// 3. be aware condition start > end
+// */
+// class Solution {
+// public:
+//     int findMin(vector<int>& nums) {
+//         int start = 0, end = nums.size() - 1, mid, ans = nums[0];
+//         while(start <= end){
+//             mid = (start + end) / 2;
+//             if(nums[mid] >= nums[start])
+//                 if(start == mid && mid <= end) start += 1;
+//                 else start = mid;
+//             else
+//                 end = mid;
+//             ans = min(ans, nums[mid]);
+//         }
+//         return ans;
+//     }
+// };
 
 // class Solution {
 // public:

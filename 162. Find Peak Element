@@ -1,0 +1,20 @@
+/* Question: find the peak index of given array, a peak index need to strictly greater than its neighbors
+every neighbor will not contain equal value
+1. use binary search:
+    1) if nums[mid] < nums[mid+1], peak value at the right [mid, end]
+    2) otherwise at the left [start, mid]
+2. return start when peak find
+*/
+
+class Solution {
+public:
+    int findPeakElement(vector<int>& nums) {
+        int start = 0, end = nums.size()-1;
+        while(start < end){
+            int mid = start + (end - start) / 2;
+            if(nums[mid]<nums[mid+1]) start = mid + 1;
+            else end = mid;
+        }
+        return start;
+    }
+};

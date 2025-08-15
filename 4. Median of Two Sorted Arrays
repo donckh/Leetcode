@@ -1,0 +1,39 @@
+/* Question: find the median of two sorted arrays
+median is the middle value of array, if it is even array return (mid1 + mid2) / 2.0
+1. use nums1 as shorter array, nums2 as longer array
+2. split both array as use binary search technique
+    1) split the array at the same time (mid1 and mid2)
+    2) use bounrdary to limit the value in case split at begining or ending
+    3) check the split array is correct(left side on both nums1 and nums2 are less than right side)
+        return value according to odd or even array
+    4) if leftMax > rightMin: end = mid1-1;
+*/
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int m = nums1.size(), n = nums2.size();
+        if(m > n) return findMedianSortedArrays(nums2, nums1); //ensure nums1 is shorter
+
+        int start = 0, end = m, totalLeft = (m + n + 1) / 2;  // the most possilbe left side nums
+
+        while(start <= end){
+            int mid1 = start + (end - start) / 2; //binary search at nums1
+            int mid2 = totalLeft - mid1;  
+
+            int num1LeftMax = (mid1 == 0) ? INT_MIN : nums1[mid1-1]; 
+            int num1RightMin = (mid1 == m) ? INT_MAX : nums1[mid1];
+            int num2LeftMax = (mid2 == 0) ? INT_MIN : nums2[mid2-1];
+            int num2RightMin = (mid2 == n) ? INT_MAX : nums2[mid2];
+
+            if(num1LeftMax <= num2RightMin && num2LeftMax <=num1RightMin){
+                if((m + n) % 2 == 0){ //if even
+                    return (max(num1LeftMax, num2LeftMax) + min(num1RightMin, num2RightMin)) / 2.0;
+                }
+                else return double(max(num1LeftMax, num2LeftMax));
+            }
+            else if(num1LeftMax > num2RightMin) end = mid1 - 1;
+            else start = mid1 + 1;
+        }
+        return 0.0;
+    }
+};

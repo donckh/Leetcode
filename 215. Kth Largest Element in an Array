@@ -1,52 +1,43 @@
-// // struct TreeNode {
-// //     int val;
-// //     TreeNode *left;
-// //     TreeNode *right;
-// //     TreeNode() : val(0), left(nullptr), right(nullptr) {}
-// //     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
-// //     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
-// // };
-// method 1: BST
-// class Solution {
-// public:
-//     void BST(vector<int> &nums, int start, int end, TreeNode *&parent){
-//         if(start>end) return;
-//         int mid = (end + start)/2;
-//         parent = new TreeNode(nums[mid]);
-//         BST(nums, start, mid-1, parent->left);
-//         BST(nums, mid+1, end, parent->right);
-//     }
-//     TreeNode* sortedArrayToBST(vector<int>& nums) {
-//         TreeNode *root = NULL;
-//         BST(nums, 0, nums.size()-1, root);
-//         return root;
-//     }
-//     int findKthLargest(vector<int>& nums, int k) {
-//         sort(nums.begin(), nums.end());
-//         TreeNode *tree = sortedArrayToBST(nums);
-//         int start = 0;
-//         int end = nums.size()-1;
-//         int loc = (end)/2; 
-//         while(k!=nums.size()-loc){
-//             if (k<nums.size()-loc){
-//                 tree=tree->right;
-//                 start = loc+1;
-//                 loc = (start+end)/2;
-//             }
-//             else{
-//                 tree=tree->left;
-//                 end = loc-1;
-//                 loc = (start+end)/2;
-//             }
-//         }
-//         return tree->val;
-//     }
-// };
-// method 2: sort and return
+/* Question: find the largest kth element from array without sort techinque
+1st method:
+1. use nth element (quick select-like)
+    1) random select an element as pivot
+    2) separate left < pivot < right
+    3) check if pivot is kth largest element
+2. return the kth element
+
+2nd element:
+1. use priority_queue:
+    1) set greater only to push queue, otherwise drop
+    2) go through the array
+    3) return queue.top()
+*/
+
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        sort(nums.begin(), nums.end());
-        return nums[nums.size()-k];
+        nth_element(nums.begin(), nums.end() - k, nums.end());
+        return nums[nums.size() - k];
     }
 };
+
+// 2nd method:
+// class Solution {
+// public:
+//     int findKthLargest(vector<int>& nums, int k) {
+//         priority_queue<int, vector<int>, greater<int>> minHeap;
+//         int last = INT_MAX;
+//         for(int i=0;i<k;i++){
+//             minHeap.push(nums[i]);
+//             last = min(nums[i], last);
+//         } 
+//         for(int i=k;i<nums.size(); i++){
+//             int curr = nums[i];
+//             if(curr <= last) continue;
+//             minHeap.push(curr);
+//             if(minHeap.size()>k) minHeap.pop();
+//             last = minHeap.top();
+//         }
+//         return last;
+//     }
+// };

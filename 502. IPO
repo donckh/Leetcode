@@ -1,0 +1,47 @@
+/* Question: find the max investment for the kth project profits, the project can be count only if w >= capital
+1. record all the profit and capital
+2. sort by vector
+3. use maxHeap to sum up the max profit until kth
+*/
+class Solution {
+public:
+    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+        priority_queue<int> maxHeap;
+        vector<pair<int, int>> investment;
+        int n = profits.size();
+        for(int i=0; i<n; i++){
+            investment.push_back({capital[i], profits[i]});
+        }
+        sort(investment.begin(), investment.end());
+        int i = 0;
+        while(k--){
+            while(i<n && investment[i].first <= w )
+                maxHeap.push(investment[i++].second);
+            if(maxHeap.empty()) break;
+            w += maxHeap.top();
+            maxHeap.pop();
+        }
+        return w;
+    }
+};
+
+class Solution {
+// public:
+//     int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {
+//         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
+//         priority_queue<int> maxHeap;
+//         for(int i=0; i<profits.size(); i++){
+//             minHeap.push({capital[i], profits[i]});
+//         }
+//         while(k--){
+//             while(!minHeap.empty() && minHeap.top().first <= w){
+//                 maxHeap.push(minHeap.top().second);
+//                 minHeap.pop();
+//             }
+//             if(maxHeap.empty()) break;
+//             w += maxHeap.top();
+//             maxHeap.pop();
+//         }
+//         return w;
+//     }
+// };

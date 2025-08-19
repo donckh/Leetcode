@@ -1,3 +1,20 @@
+/* Question: find the intergers which appear only once
+1. XOR all the nums: (return false if same value: 11->0, 10 or 01->1, 00->0)
+2. the remain num will be the result
+*/
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int res = 0;
+        for(int i:nums){
+            res ^= i;
+        }
+        return res;
+    }
+};
+
+//simple but need space O(n)
 // class Solution {
 // public:
 //     int singleNumber(vector<int>& nums) {
@@ -16,14 +33,3 @@
 //     }
 // };
 
-// XOR: return false if same value
-class Solution {
-public:
-    int singleNumber(vector<int>& nums) {
-        int sum=0;
-        for(int i=0; i<nums.size(); i++){
-            sum ^= nums[i];
-        }
-        return sum;
-    }
-};

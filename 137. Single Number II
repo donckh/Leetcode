@@ -1,0 +1,20 @@
+/*Question: find the only appear once integer between appear three times nums
+1. initial ones and twos
+2. use xor to record ones
+3. use & ~twos to filter out num appear twice
+4. use xor to record twos num
+5. use & ~ones to filter out num appear once
+
+*/
+
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int ones = 0, twos = 0;
+        for(int num: nums){
+            ones = (ones ^ num) & ~twos;
+            twos = (twos ^ num) & ~ones;
+        }
+        return ones;
+    }
+};

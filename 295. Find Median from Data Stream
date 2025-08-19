@@ -1,0 +1,48 @@
+/* Question: create a class that can add num and find the median
+1. initial 2 Heap: max and min
+2. add Num to max if empty or less than max.top
+3. find the median:
+    1) transfer element from another heap if size different larger than 1
+    2) if total heap num is odd, return the larger heap top element
+    3) if total heap num is even, return average of both heap top elements
+*/
+
+class MedianFinder {
+    priority_queue<int, vector<int>, greater<int>> minHeap;
+    priority_queue<int> maxHeap;
+    int cnt = 0;
+public:
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if(maxHeap.empty()) {
+            maxHeap.push(num); 
+            return;
+        }
+        if(num < maxHeap.top()) maxHeap.push(num);
+        else minHeap.push(num);
+    }
+    
+    double findMedian() {
+        while(maxHeap.size() > minHeap.size() + 1){
+            minHeap.push(maxHeap.top());
+            maxHeap.pop();
+        }
+        while(minHeap.size() > maxHeap.size() + 1){
+            maxHeap.push(minHeap.top());
+            minHeap.pop();
+        }
+        if((maxHeap.size() + minHeap.size()) % 2 == 0) return (maxHeap.top() + minHeap.top()) / 2.0;
+        else if(maxHeap.size() > minHeap.size()) return maxHeap.top();
+        else return minHeap.top();
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */

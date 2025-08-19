@@ -1,13 +1,30 @@
-/*Question: count binary 1 of input integer
+/* Question: find the number of 1 in binary for given num
+1. while n > 0:
+    1) check if n&1: cnt++;
+    2) right shift to remove this bit
+2 return cnt
 */
+
 class Solution {
 public:
     int hammingWeight(int n) {
-        int count = 0;
-        while(n){
-            if(n % 2) count++;
-            n = n >> 1;
+        int cnt = 0;
+        while(n > 0){
+            if(n & 1) cnt++;
+            n >>= 1;
         }
-        return count;
+        return cnt;
     }
 };
+
+// class Solution {
+// public:
+//     int hammingWeight(int n) {
+//         int count = 0;
+//         while(n){
+//             if(n % 2) count++;
+//             n = n >> 1;
+//         }
+//         return count;
+//     }
+// };

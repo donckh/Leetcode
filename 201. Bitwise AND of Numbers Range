@@ -1,0 +1,18 @@
+/* Question: find the bitwise and of all numbers between range
+-> find the common prefix for the range nums
+1. right shift LEFT and RIGHT until LEFT==RIGHT
+2. left shift LEFT back and return
+*/
+
+class Solution {
+public:
+    int rangeBitwiseAnd(int left, int right) {
+        int shift = 0;
+        while(left < right){
+            left >>= 1;
+            right >>= 1;
+            shift++;
+        }
+        return left << shift;
+    }
+};

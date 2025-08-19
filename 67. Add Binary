@@ -1,0 +1,27 @@
+/*Question: given two string: add them up as binary 
+1. make the string a is longer one
+2. sum temp up from the last index of string to the first one
+    1) if j>=0: add a[i], j[i] and c, otherwise add a[i] and c
+    2) use -/+ '0' to convert char to int and int to char
+    3) take %2 as a[i]
+    4) take /2 as next c
+3. do the last sum if c == 1
+4. return a
+*/
+
+class Solution {
+public:
+    string addBinary(string a, string b) {
+        if(b.size() > a.size()) return addBinary(b, a);
+        int i = a.size()-1, j = b.size()-1, c = 0;
+        while(i >= 0){
+            int temp = (a[i] - '0') + (j >= 0 ? (b[j] - '0') : 0) + c;
+            a[i] = char((temp % 2) + '0');
+            c = temp / 2;
+            i--;
+            j--;
+        }
+        if(c) a = '1' + a;
+        return a;
+    }
+};

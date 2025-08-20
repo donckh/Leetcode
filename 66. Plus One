@@ -1,61 +1,27 @@
-// class Solution {
-// public:
-//     vector<int> plusOne(vector<int>& digits) {
-//         int last = digits.size()-1;
-//         digits[last] = digits[last] + 1;
-//         while(last>=0 && digits[last]>9){
-//             if(last-1>=0){
-//                 digits[last-1] += digits[last]/10;
-//                 digits[last] = digits[last]%10;
-//             }
-//             else{
-//                 digits.push_back(digits.back());
-//                 for(int i=digits.size()-1; i>0; i--){
-//                     digits[i] = digits[i-1];
-//                 }
-//                 digits[0] = digits[1] / 10;
-//                 digits[1] = digits[1] % 10;
-//             }
-//             last--;
-//         }
-//         return digits;
-//     }
-// };
+/* Question: use array to calculate a large num + 1, return result by array
+1. return result+1 if the last digit is not 9
+2. use c = 1 to add 1 in array
+3. if c == 1 after loop
+4. insert 1 at the begining()
+*/
 
-// class Solution {
-// public:
-//     vector<int> plusOne(vector<int>& digits) {
-//         int last = digits.size()-1;
-//         digits[last] = digits[last] + 1;
-//         while(last>=0 && digits[last]>9){
-//             if(last-1>=0){
-//                 digits[last-1] += digits[last]/10;
-//                 digits[last] = digits[last]%10;
-//             }
-//             else{
-//                 digits.insert(digits.begin(), digits[0] / 10);
-//                 digits[1] = digits[1] % 10;
-//             }
-//             last--;
-//         }
-//         return digits;
-//     }
-// };
 
 class Solution {
 public:
     vector<int> plusOne(vector<int>& digits) {
-        int last = digits.size()-1;
-        for(int i=last; i>=0; i--){
-            if(digits[i]<9){
-                digits[i] += 1;
-                return digits;
-            }
-            else{
-                digits[i] = 0;
-            }
+        int size = digits.size()-1, c = 1;
+        if(digits[size]!= 9){
+            digits[size] += 1;
+            return digits;
         }
-        digits.insert(digits.begin(), 1);
+
+        for(int i=size; i>=0; i--){
+            int temp = digits[i] + c;
+            c = temp / 10;
+            digits[i] = temp % 10;
+            if(c==0) break;
+        }
+        if(c==1) digits.insert(digits.begin(), 1);
         return digits;
     }
 };

@@ -1,0 +1,16 @@
+/* Question: find the trailing zeroes of n!
+1. find 2 and 5 combination (2 x 5 = 10)
+2. check how many number in n can be divided by 5
+3. return the total 5 (as 2 will definity more than 5)
+*/
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        int cnt = 0;
+        while(n > 0){
+            n /= 5;
+            cnt += n;
+        }
+        return cnt;
+    }
+};

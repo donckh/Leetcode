@@ -1,0 +1,48 @@
+/* Question: find how many points at the same line
+1. use given points to calculate slope
+2. if slope is the same, use map<pair<int,int>, int> to store
+3. use gcd (greatest common divisor) to prevent overflow point
+4. check the local max
+5. store max at ans with duplicate point and +1 (the original point)
+6. return ans
+*/
+
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+
+        if(points.size()<=2) return points.size();
+        int ans = 0;
+
+        for(int i = 0; i<points.size(); i++){
+            map<pair<int,int>, int> slope;
+            int local = 0, same = 0;
+            for(int j = i+1; j<points.size(); j++){
+                int y = points[i][1] - points[j][1];
+                int x = points[i][0] - points[j][0];
+
+                if(x==0 && y==0){
+                    same++;
+                    continue;
+                } 
+
+                if(x<0){
+                    y = -y;
+                    x = -x;
+                }
+
+                int com = findGCD(x, y);
+                y = y/com;
+                x = x/com;
+                
+                local = max(local, ++slope[{x, y}]);
+            }
+            ans = max(ans, local + same + 1);
+        }
+        return ans;
+    }
+
+    int findGCD(int a, int b){
+        return b==0 ? a : findGCD(b, a%b);
+    }
+};

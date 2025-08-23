@@ -1,12 +1,41 @@
+/* Question: find the ways to reach the end points
+1st method:
+1. initial step 0 as 1;
+2. go through every points
+3. count current step reaching ways: cnt[i+j] = cnt[i+j] + cnt[i]
+4. return cnt[n]
+
+2nd method:
+1. initial dp[0]-dp[2];
+2. cnt the step from 3 until the end
+3. dp[curr] = dp[prev1] + dp[prev2] + ....
+4. return cnt[n]
+*/
+
 class Solution {
 public:
     int climbStairs(int n) {
         if(n<3) return n;
-        vector<int> dp(n+1);
-        dp[0] = 0, dp[1] =1, dp[2] = 2;
-        for(int j=3; j<n+1; j++){
-            dp[j] = dp[j-1] + dp[j-2];
+        vector<int> cnt(n+1, 0);
+        cnt[0] = 1;
+        for(int i=0; i<n; i++){
+            for(int j=1; j<3; j++){
+                if(i+j <= n) cnt[i+j] += cnt[i];
+            }
         }
-       return dp[n];
+        return cnt[n];
     }
 };
+
+// class Solution {
+// public:
+//     int climbStairs(int n) {
+//         if(n<3) return n;
+//         vector<int> dp(n+1);
+//         dp[0] = 0, dp[1] =1, dp[2] = 2;
+//         for(int j=3; j<n+1; j++){
+//             dp[j] = dp[j-1] + dp[j-2];
+//         }
+//        return dp[n];
+//     }
+// };

@@ -1,3 +1,9 @@
+/* Question: check whether s can be completely semented by wordDict
+1. initial a set for wordDict to quick check
+2. initial the check<bool> to record the prev word exisit in wordDict or not
+3. go through the s until the end
+4. return the check[n]
+*/
 //Time Complexity: O(n^3) 2 loop and substr, Space Complexity: O(n)
 //Sol: find substring in set and check sub-substring in set until the end
 

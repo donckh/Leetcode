@@ -1,0 +1,18 @@
+/* Question: find the min path sum from triangle (top to bottom)
+1. initial a dp record the bottom row
+2. calculate the min from 2nd bottom row
+3. return dp[0] as the min path sum
+*/
+class Solution {
+public:
+    int minimumTotal(vector<vector<int>>& triangle) {
+        vector<int> dp = triangle.back();
+        
+        for(int i = triangle.size() - 2; i >= 0; i--){
+            for(int j = 0; j<=i; j++){
+                dp[j] = triangle[i][j] + min(dp[j], dp[j+1]);
+            }
+        }
+        return dp[0];
+    }
+};

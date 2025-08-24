@@ -1,21 +1,46 @@
-/* Question: find longest increase subsequence length.
-1. 2 for loop: 1 for go through num, 2 for compare num and find previous longest increase subsequence length
-2. save max longest increase subsequence length.
+/* Question: find the longest increasing subsequence from given array
+1st method: Patience Sorting + Binary Search (O(n log n))
+1. initial a vector array
+2. push the element to sub if the last element smaller than i
+3. replace the 1st found element which larger than i 
+(sub vector not necessary to be correct subsequence, but keep the longest subsequence length)
+4. return sub.size as the longest incresing subsequence
+
+2nd method:DP (O(n²))
+1. initial length count
+2. start from every element
+3. update the subsequence length by compare j with i
+4. store the max length and return
 */
 class Solution {
 public:
     int lengthOfLIS(vector<int>& nums) {
-        int i, max = 1;
-        vector<int> cnt(nums.size(),0);
-        for(i=0; i<nums.size(); ++i){
-            cnt[i]=1;
-            for(int j=i-1; j>=0; --j){
-                if(cnt[j]+1>cnt[i] && nums[j] < nums[i]) {
-                    cnt[i] = cnt[j]+1;
-                    if (max < cnt[i]) max =cnt[i];
-                }
+        vector<int> sub;
+        sub.push_back(nums[0]);
+        for(int i: nums){
+            auto it = lower_bound(sub.begin(), sub.end(), i);
+            if(it != sub.end()){
+                *it = i;
             }
+            else sub.push_back(i);
         }
-    return max;
+        return sub.size();
     }
 };
+
+// class Solution {
+// public:
+//     int lengthOfLIS(vector<int>& nums) {
+//         vector<int> length(nums.size(), 1);
+//         int res = 1;
+//         for(int i=0; i<nums.size(); i++){
+//             for(int j=i+1; j<nums.size(); j++){
+//                 if(nums[i] < nums[j]){
+//                     length[j] = max(length[j], length[i]+1);
+//                     res = max(res, length[j]);
+//                 }
+//             }
+//         }
+//         return res;
+//     }
+// };

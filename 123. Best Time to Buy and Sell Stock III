@@ -1,0 +1,26 @@
+/*Question: find the most profit for two transactions
+1. initial hold and sell
+2. cal 1st and 2nd hold and sell:
+    1) find the max hold1 or -prices
+    2) calculate the max sell1
+    3) find the max hold2 after sell1
+    4) calculate the max sell2
+3. return sell2
+*/
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int n = prices.size();
+        if(n==0) return 0;
+        int hold1 = -prices[0], sell1 = 0;
+        int hold2 = -prices[0], sell2 = 0;
+        for(int i=1; i<n; i++){
+            hold1 = max(hold1, -prices[i]);
+            sell1 = max(sell1, hold1 + prices[i]);
+            hold2 = max(hold2, sell1 - prices[i]);
+            sell2 = max(sell2, hold2 + prices[i]);
+        }
+        return sell2;
+    }
+};

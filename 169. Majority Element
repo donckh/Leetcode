@@ -1,3 +1,29 @@
+/* Question: find the major element from array
+1. use cnt as reference
+2. initial the major element and cnt
+3. if not major element: cnt--, otherwise cnt++
+4. if cnt<=0, curr element is curr major element;
+
+major element will appear most, then cnt will always non-zero
+Space: O(1)
+*/
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        if(nums.size() < 3) return nums[0];
+        int cnt = 1, val = nums[0]; //initial major value
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i] == val) cnt++;
+            else cnt--;
+            if(cnt < 0){
+                val = nums[i]; //update major value
+                cnt = -cnt;
+            }
+        }
+        return val;
+    }
+};
+
 //use umap to store all element and output major one
 // class Solution {
 // public:
@@ -15,21 +41,3 @@
 //     }
 // };
 
-// major element will appear most, then cnt will always non-zero
-// Space: O(1)
-class Solution {
-public:
-    int majorityElement(vector<int>& nums) {
-        if(nums.size() < 3) return nums[0];
-        int cnt = 1, val = nums[0]; //initial major value
-        for(int i=1; i<nums.size(); i++){
-            if(nums[i] == val) cnt++;
-            else cnt--;
-            if(cnt < 0){
-                val = nums[i]; //update major value
-                cnt = -cnt;
-            }
-        }
-        return val;
-    }
-};

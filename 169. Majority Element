@@ -16,17 +16,20 @@
 // };
 
 // major element will appear most, then cnt will always non-zero
+// Space: O(1)
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int cnt=0, major;
-        for(auto i:nums){
-            if(cnt==0){
-                major = i;
-            }
-            if(i==major) cnt++;
+        if(nums.size() < 3) return nums[0];
+        int cnt = 1, val = nums[0]; //initial major value
+        for(int i=1; i<nums.size(); i++){
+            if(nums[i] == val) cnt++;
             else cnt--;
+            if(cnt < 0){
+                val = nums[i]; //update major value
+                cnt = -cnt;
+            }
         }
-        return major;
+        return val;
     }
 };

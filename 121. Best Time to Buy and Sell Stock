@@ -1,11 +1,18 @@
+/*Question: find the large profit to buy and sell once
+1. initial hold
+2. keep the min hold stock
+3. keep the max sell stock
+4. return result
+*/
+
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        int len = prices.size(), minp = INT_MAX, maxp = 0;
-        for(int i=0; i<len; i++){
-            minp = min(prices[i], minp);
-            maxp = max(maxp, prices[i] - minp);
+        int hold = -prices[0], sell = 0;
+        for(int i=1; i<prices.size(); i++){
+            hold = max(hold, -prices[i]);
+            sell = max(sell, hold + prices[i]);
         }
-        return maxp;
+        return sell;
     }
 };

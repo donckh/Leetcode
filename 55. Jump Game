@@ -1,21 +1,7 @@
-//Time Complexity: O(n^2), Space Complexity: O(n)
-// class Solution {
-// public:
-//     bool canJump(vector<int>& nums) {
-//         int len = nums.size();
-//         vector<bool> valid(len, 0);  //vector for record step can jump
-//         valid[0]=true;
-//         for(int i=0; i<len; i++){
-//             if(valid[i]){
-//                 if(i+nums[i]+1>=len) return true;  //if can reach last
-//                 for(int j=0; i+j<len && j<=nums[i]; j++){
-//                     valid[i+j] = true;
-//                 }
-//             }
-//         }
-//         return false;
-//     }
-// };
+/* Question: given jump value by array, check if it can reach the end
+1. check the jump can be reach the end
+2. if step > jump return false, otherwise, can reach
+*/
 
 //Time Complexity: O(n), Space Complexity: O(1)
 class Solution {

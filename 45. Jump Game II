@@ -1,0 +1,22 @@
+/* Question: find the shortest jump to reach destination
+1. initial current and max jump
+2. check if jump reach destination
+3. if step == current end, update max jump and count++
+4. return count
+*/
+
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int cnt = 0, curr = 0, jump = 0, n = nums.size();
+        for(int i=0; i<n; i++){
+            if(curr >= n-1) break;
+            jump = max(jump, i + nums[i]);
+            if(i==curr){
+                curr = jump;
+                cnt++;
+            }
+        }
+        return cnt;
+    }
+};

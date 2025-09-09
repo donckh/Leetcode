@@ -1,48 +1,92 @@
 /* Question: find the next status according to the rule:
-1. if live: 
-    1) < 2 neighbor live --> dies
-    2) < 4 neighbor live --> live
-    3) >= 4 neighbor live --> dies
-2. if dead, 3 neighbor live --> live
-
-3. create a matrix to save all neighbor status
-4. add rule to update the board
+Constant space solution:
+1. set a neighbor coordinate
+2. go through matrix
+3. check neight status
+4. change element to corresponding int for marking:
+    if status will change: (1->0: 4(dead), 0->1: 5(life))
+5. if neighbor not dead, consider neighbor life
+6. update all the neighbor element
 */
 class Solution {
 public:
     void gameOfLife(vector<vector<int>>& board) {
-        int row = board.size()-1, col = board[0].size()-1;
-        vector<vector<int>> ones(row+1, vector<int>(col+1));
-        
-        for(int r=0; r<=row; r++){
-            for(int c=0; c<=col; c++){
-                if(board[r][c]==1){
-                    if(r-1>=0){
-                        if(c-1>=0) ones[r-1][c-1]++;
-                        ones[r-1][c]++;
-                        if(c+1<=col) ones[r-1][c+1]++;
-                    } 
-                    if(c-1>=0) ones[r][c-1]++;
-                    if(c+1<=col) ones[r][c+1]++;
-                    if(r+1<=row){
-                        if(c-1>=0) ones[r+1][c-1]++;
-                        ones[r+1][c]++;
-                        if(c+1<=col) ones[r+1][c+1]++;
-                    } 
+        int m = board.size(), n = board[0].size();
+        vector<int> row = {-1, -1, -1, 0, 0, 1, 1, 1};
+        vector<int> col = {-1, 0, 1, -1, 1, -1, 0, 1};
+
+        for(int r=0; r<m; r++){
+            for(int c=0; c<n; c++){
+                int cnt = 0;
+                for(int k=0; k<8; k++){
+                    int nr = r + row[k];
+                    int nc = c + col[k];
+                    if(nr >= 0 && nr < m && nc >= 0 && nc < n && board[nr][nc] != 5 && board[nr][nc] != 0) cnt++;
                 }
-                
-            }
-        }
-        for(int r=0; r<=row; r++){
-            for(int c=0; c<=col; c++){
                 if(board[r][c]==1){
-                    if(ones[r][c]<2) board[r][c] = 0;
-                    else if(ones[r][c]<4) board[r][c] = 1;
-                    else board[r][c] = 0;
+                    if(cnt < 2 || cnt > 3) board[r][c] = 4;
                 }
-                else if(ones[r][c] == 3 && board[r][c]==0) board[r][c] = 1;
+                else if(board[r][c]==0){
+                    if(cnt==3) board[r][c] = 5;
+                }
             }
         }
 
+        for(int r=0; r<m; r++){
+            for(int c=0; c<n; c++){
+                if(board[r][c]==4) board[r][c] = 0;
+                else if(board[r][c]==5) board[r][c] = 1;
+            }
+        }
     }
 };
+
+/* 
+// 1. if live: 
+//     1) < 2 neighbor live --> dies
+//     2) < 4 neighbor live --> live
+//     3) >= 4 neighbor live --> dies
+// 2. if dead, 3 neighbor live --> live
+
+// 3. create a matrix to save all neighbor status
+// 4. add rule to update the board
+// */
+// class Solution {
+// public:
+//     void gameOfLife(vector<vector<int>>& board) {
+//         int row = board.size()-1, col = board[0].size()-1;
+//         vector<vector<int>> ones(row+1, vector<int>(col+1));
+        
+//         for(int r=0; r<=row; r++){
+//             for(int c=0; c<=col; c++){
+//                 if(board[r][c]==1){
+//                     if(r-1>=0){
+//                         if(c-1>=0) ones[r-1][c-1]++;
+//                         ones[r-1][c]++;
+//                         if(c+1<=col) ones[r-1][c+1]++;
+//                     } 
+//                     if(c-1>=0) ones[r][c-1]++;
+//                     if(c+1<=col) ones[r][c+1]++;
+//                     if(r+1<=row){
+//                         if(c-1>=0) ones[r+1][c-1]++;
+//                         ones[r+1][c]++;
+//                         if(c+1<=col) ones[r+1][c+1]++;
+//                     } 
+//                 }
+                
+//             }
+//         }
+//         for(int r=0; r<=row; r++){
+//             for(int c=0; c<=col; c++){
+//                 if(board[r][c]==1){
+//                     if(ones[r][c]<2) board[r][c] = 0;
+//                     else if(ones[r][c]<4) board[r][c] = 1;
+//                     else board[r][c] = 0;
+//                 }
+//                 else if(ones[r][c] == 3 && board[r][c]==0) board[r][c] = 1;
+//             }
+//         }
+
+//     }
+// };
+

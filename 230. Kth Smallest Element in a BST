@@ -20,7 +20,7 @@ public:
     int findK(TreeNode* root, int &k){
         if(!root) return -1;
         int left = findK(root->left, k);
-        if(k==0) return left;
+        if(k==0) return left; //for quick return, prevent cover up by others
         k--;
         if(k==0) return root->val;
         return findK(root->right, k); //search in right

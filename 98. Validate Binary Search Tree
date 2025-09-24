@@ -21,7 +21,7 @@ public:
     bool bst(TreeNode* root){
         if(!root) return true;
         bool left = bst(root->left);
-        if(prev && prev->val >= root->val) return false;
+        if(prev && prev->val >= root->val) return false; //find false
         prev = root;
         bool right = bst(root->right);
         return left && right;

@@ -12,11 +12,11 @@
 
 class Solution {
 public:
-    pair<int, int> getRC(int step, int n){  //convert setp(1-base) to row and col (0-base)
+    pair<int, int> getRC(int step, int n){  //convert step(1-base) to row and col (0-base)
         int botRow = (step - 1) / n;
         int botCol = (step - 1) % n;
-        int row = n - 1 - botRow;
-        int col = botRow % 2 == 0 ? botCol : n - 1 - botCol;
+        int row = n - 1 - botRow; //convert step(1-base) to array
+        int col = botRow % 2 == 0 ? botCol : n - 1 - botCol; //convert step(1-base) to array
         return {row, col};
     }
 

@@ -30,17 +30,17 @@ public:
             fast = fast->next->next;
         }
         prev->next = nullptr;
-        ListNode* l1 = sortList(head);
+        ListNode* l1 = sortList(head); 
         ListNode* l2 = sortList(slow);
 
-        return merge(l1, l2);
+        return merge(l1, l2); //return sorted ListNodes
     }
 
     ListNode* merge(ListNode* l1, ListNode* l2){
         ListNode dummy;
         ListNode* tail = &dummy;
         while(l1&&l2){
-            if(l1->val < l2->val){
+            if(l1->val < l2->val){ //compare sorted ListNodes
                 tail->next = l1;
                 l1 = l1->next;
             }

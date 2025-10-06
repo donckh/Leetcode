@@ -26,11 +26,6 @@ public:
                     continue;
                 } 
 
-                if(x<0){
-                    y = -y;
-                    x = -x;
-                }
-
                 int com = findGCD(x, y);
                 y = y/com;
                 x = x/com;

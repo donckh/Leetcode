@@ -1,0 +1,71 @@
+/*Question: find the minimum substring t in string s
+1. use 2 tchar: 1 for reference, seen for record char number
+2. count every c in t
+3. if type == cnt umap then record len
+*/
+
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int idx = 0, len = s.size()+1, type = 0, start = 0;
+        vector<int> tchar(128, 0), seen(128, 0);  //use vector faster than umap
+        for(char& c: t){
+            if(tchar[c]==0) type++; //type of char++;
+            tchar[c]++;
+        } 
+
+        int cnt = 0;  //cnt seen char
+        for(int i=0; i<s.size(); i++){
+            seen[s[i]]++;
+            if(tchar[s[i]]>0 && tchar[s[i]]==seen[s[i]]) cnt++;
+
+            while(type==cnt){
+                if(i - start + 1 < len){
+                    len = i - start + 1;
+                    idx = start;
+                }
+
+                if(tchar[s[start]]>0){
+                    if(tchar[s[start]]==seen[s[start]]) cnt--;
+                    seen[s[start]]--;
+                }
+                start++;
+            }
+        }
+        return len == s.size() + 1 ? "" : s.substr(idx, len);
+    }
+};
+
+
+// class Solution {
+// public:
+//     string minWindow(string s, string t) {
+//         int len = INT_MAX, count = 0, idx = 0;
+//         unordered_map <char, int> umap, window;
+//         for(auto c: t) umap[c]++;
+
+//         for(int start = 0, end = 0; end < s.size(); end++){
+//             char c = s[end];
+//             if(umap.count(c)){  //check if char in t
+//                 window[c]++; //count the number of char
+//                 if(window[c]==umap[c]) count++; //if char type and number are correct count++;
+//             }
+
+//             while(count==umap.size()){  //check if all type of char are match(count correct)
+//                 if(end-start+1<len){  //if end-start+1<len, save it
+//                     len = end-start+1;
+//                     idx = start;
+//                 }
+
+//                 char d = s[start];
+//                 start++;
+//                 if(umap.count(d)){
+//                     if(umap[d]==window[d]) count--;  //count-- as d is remove by start++
+//                     window[d]--;
+//                 }
+//             }
+
+//         }
+//         return len==INT_MAX? "" : s.substr(idx, len);
+//     }
+// };

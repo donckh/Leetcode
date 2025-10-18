@@ -10,7 +10,7 @@
 class Solution {
 public:
     unordered_map<int, int> umap;
-    TreeNode* bst(vector<int> &preorder, vector<int>& inorder, int &index, int start, int end){
+    TreeNode* bst(vector<int> &preorder, vector<int>& inorder, int &index, int start, int end){ //use int& idx to prevent duplicate idx use at right tree
         if(start>end) return NULL;  //means preoder reach the end
         TreeNode* root = new TreeNode(preorder[index]);
         index++;

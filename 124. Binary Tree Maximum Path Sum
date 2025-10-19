@@ -1,4 +1,4 @@
-/* Question: fint the max path sum(from one leaf to another lead)
+/* Question: fint the max path sum(root/sub-root itself or path between two nodes)
 1. define a maxSum
 2. build a pathSum function:
     1) find the max sum of left leaf.
